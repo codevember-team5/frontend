@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
-import { Button } from '@/components/ui/button'
+/* import { Button } from '@/components/ui/button' */
 import ExampleChart from '@/components/molecules/ExampleChart.vue'
+import AppsUsageChart from './components/molecules/AppsUsageChart.vue'
 
-function handleClick() {
+/* function handleClick() {
   alert('cliccato!')
-}
+} */
 </script>
 
 <template>
@@ -23,7 +24,8 @@ function handleClick() {
     </header>
 
     <main class="p-6 flex-1">
-      <Button @click="handleClick"> Cliccami 👋 - Prova bottone </Button>
+      <!--  <Button @click="handleClick"> Cliccami 👋 - Prova bottone </Button> -->
+      <AppsUsageChart> </AppsUsageChart>
       <ExampleChart />
       <RouterView />
     </main>
