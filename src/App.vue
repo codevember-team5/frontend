@@ -1,12 +1,8 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
-/* import { Button } from '@/components/ui/button' */
-import ExampleChart from '@/components/molecules/ExampleChart.vue'
+import AppsDonutChart from '@/components/molecules/AppsDonutChart.vue'
 import AppsUsageChart from './components/molecules/AppsUsageChart.vue'
-
-/* function handleClick() {
-  alert('cliccato!')
-} */
+import AttentionAreaChart from './components/molecules/AttentionAreaChart.vue'
 </script>
 
 <template>
@@ -24,9 +20,13 @@ import AppsUsageChart from './components/molecules/AppsUsageChart.vue'
     </header>
 
     <main class="p-6 flex-1">
-      <!--  <Button @click="handleClick"> Cliccami 👋 - Prova bottone </Button> -->
-      <AppsUsageChart> </AppsUsageChart>
-      <ExampleChart />
+      <div class="flex gap-6">
+        <AppsUsageChart />
+        <AppsDonutChart />
+      </div>
+      <div class="flex gap-6">
+        <AttentionAreaChart />
+      </div>
       <RouterView />
     </main>
     <footer class="bg-slate-900 text-white border-t border-slate-700 px-6 py-3 text-xs text-center">
