@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { userService } from '@/services/user.service'
 import { Button } from '@/components/ui/button'
 import UserModal from '@/components/molecules/UserModal.vue'
@@ -10,11 +11,13 @@ interface User {
     email: string
 }
 
+const { t } = useI18n()
+
 const users = ref<User[]>([])
 const isLoading = ref(false)
 const skip = ref(0)
 const limit = ref(10)
-const total = ref(0) // Assuming backend returns total or we just check if we got less than limit
+const total = ref(0)
 
 const isModalOpen = ref(false)
 const editingUser = ref<User | null>(null)
@@ -50,13 +53,13 @@ const handlePrev = () => {
 }
 
 const handleDelete = async (id: string) => {
-    if (!confirm('Are you sure you want to delete this user?')) return
+    if (!confirm(t('users.deleteConfirm'))) return
     try {
         await userService.deleteUser(id)
         fetchUsers()
     } catch (error) {
         console.error('Failed to delete user:', error)
-        alert('Failed to delete user')
+        alert(t('users.deleteError'))
     }
 }
 
@@ -81,7 +84,7 @@ const handleSave = async (userData: any) => {
         fetchUsers()
     } catch (error) {
         console.error('Failed to save user:', error)
-        alert('Failed to save user')
+        alert(t('users.saveError'))
     }
 }
 
@@ -98,9 +101,9 @@ onMounted(() => {
 <template>
     <div class="max-w-6xl mx-auto">
         <div class="flex justify-between items-center mb-6">
-            <h1 class="text-3xl font-bold text-zinc-900 dark:text-zinc-50">Users</h1>
+            <h1 class="text-3xl font-bold text-zinc-900 dark:text-zinc-50">{{ $t('users.title') }}</h1>
             <Button @click="handleCreate" class="bg-indigo-600 hover:bg-indigo-700 text-white">
-                Add User
+                {{ $t('users.addUser') }}
             </Button>
         </div>
 
@@ -112,24 +115,26 @@ onMounted(() => {
                         <tr>
                             <th scope="col"
                                 class="px-6 py-3 text-left text-xs font-medium text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">
-                                Full Name
+                                {{ $t('users.fullName') }}
                             </th>
                             <th scope="col"
                                 class="px-6 py-3 text-left text-xs font-medium text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">
-                                Email
+                                {{ $t('users.email') }}
                             </th>
                             <th scope="col"
                                 class="px-6 py-3 text-right text-xs font-medium text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">
-                                Actions
+                                {{ $t('users.actions') }}
                             </th>
                         </tr>
                     </thead>
                     <tbody class="bg-white dark:bg-zinc-900 divide-y divide-zinc-200 dark:divide-zinc-700">
                         <tr v-if="isLoading">
-                            <td colspan="3" class="px-6 py-4 text-center text-sm text-zinc-500">Loading...</td>
+                            <td colspan="3" class="px-6 py-4 text-center text-sm text-zinc-500">{{ $t('users.loading')
+                                }}</td>
                         </tr>
                         <tr v-else-if="users.length === 0">
-                            <td colspan="3" class="px-6 py-4 text-center text-sm text-zinc-500">No users found.</td>
+                            <td colspan="3" class="px-6 py-4 text-center text-sm text-zinc-500">{{ $t('users.noUsers')
+                                }}</td>
                         </tr>
                         <tr v-for="user in users" :key="user.id">
                             <td
@@ -142,11 +147,11 @@ onMounted(() => {
                             <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                 <button @click="handleEdit(user)"
                                     class="text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-300 mr-4">
-                                    Edit
+                                    {{ $t('users.edit') }}
                                 </button>
                                 <button @click="handleDelete(user.id)"
                                     class="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300">
-                                    Delete
+                                    {{ $t('users.delete') }}
                                 </button>
                             </td>
                         </tr>
@@ -157,14 +162,16 @@ onMounted(() => {
             <div
                 class="bg-zinc-50 dark:bg-zinc-800 px-6 py-3 flex items-center justify-between border-t border-zinc-200 dark:border-zinc-700">
                 <div class="flex-1 flex justify-between sm:hidden">
-                    <Button @click="handlePrev" :disabled="skip === 0" variant="outline" size="sm">Previous</Button>
-                    <Button @click="handleNext" :disabled="users.length < limit" variant="outline"
-                        size="sm">Next</Button>
+                    <Button @click="handlePrev" :disabled="skip === 0" variant="outline" size="sm">{{
+                        $t('users.previous') }}</Button>
+                    <Button @click="handleNext" :disabled="users.length < limit" variant="outline" size="sm">{{
+                        $t('users.next') }}</Button>
                 </div>
                 <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
                     <div>
                         <p class="text-sm text-zinc-700 dark:text-zinc-300">
-                            Showing <span class="font-medium">{{ skip + 1 }}</span> to <span class="font-medium">{{ skip
+                            {{ $t('users.showing') }} <span class="font-medium">{{ skip + 1 }}</span> {{ $t('users.to')
+                            }} <span class="font-medium">{{ skip
                                 + users.length }}</span>
                         </p>
                     </div>
@@ -172,7 +179,7 @@ onMounted(() => {
                         <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
                             <button @click="handlePrev" :disabled="skip === 0"
                                 class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 text-sm font-medium text-zinc-500 dark:text-zinc-400 hover:bg-zinc-50 dark:hover:bg-zinc-700 disabled:opacity-50">
-                                <span class="sr-only">Previous</span>
+                                <span class="sr-only">{{ $t('users.previous') }}</span>
                                 <!-- Heroicon name: solid/chevron-left -->
                                 <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
                                     fill="currentColor" aria-hidden="true">
@@ -183,7 +190,7 @@ onMounted(() => {
                             </button>
                             <button @click="handleNext" :disabled="users.length < limit"
                                 class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 text-sm font-medium text-zinc-500 dark:text-zinc-400 hover:bg-zinc-50 dark:hover:bg-zinc-700 disabled:opacity-50">
-                                <span class="sr-only">Next</span>
+                                <span class="sr-only">{{ $t('users.next') }}</span>
                                 <!-- Heroicon name: solid/chevron-right -->
                                 <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
                                     fill="currentColor" aria-hidden="true">

@@ -6,9 +6,9 @@ import AttentionAreaChart from '@/components/molecules/AttentionAreaChart.vue'
 
 <template>
   <section class="space-y-6">
-    <h1 class="text-2xl font-bold">Dashboard</h1>
+    <h1 class="text-2xl font-bold">{{ $t('dashboard.title') }}</h1>
     <p class="text-sm text-slate-900">
-      Spazio per mostrare KPI, grafici e un riassunto della produttività.
+      {{ $t('dashboard.subtitle') }}
     </p>
 
     <div class="flex flex-col gap-6">
@@ -23,38 +23,38 @@ import AttentionAreaChart from '@/components/molecules/AttentionAreaChart.vue'
 
     <div class="grid gap-4 md:grid-cols-3">
       <div class="rounded-lg border border-slate-800 p-4">
-        <h2 class="text-sm font-semibold text-slate-900">Focus time</h2>
+        <h2 class="text-sm font-semibold text-slate-900">{{ $t('dashboard.focusTime') }}</h2>
         <p class="mt-2 text-2xl font-bold">–</p>
       </div>
       <div class="rounded-lg border border-slate-800 p-4">
-        <h2 class="text-sm font-semibold text-slate-900">Productivity Sessions</h2>
+        <h2 class="text-sm font-semibold text-slate-900">{{ $t('dashboard.productivitySessions') }}</h2>
         <p class="mt-2 text-2xl font-bold">–</p>
       </div>
       <div class="rounded-lg border border-slate-800 p-4">
-        <h2 class="text-sm font-semibold text-slate-900">Productivity score</h2>
+        <h2 class="text-sm font-semibold text-slate-900">{{ $t('dashboard.productivityScore') }}</h2>
         <p class="mt-2 text-2xl font-bold">–</p>
       </div>
     </div>
 
     <div class="grid gap-4 md:grid-cols-3">
       <div class="rounded-lg border border-slate-800 p-4">
-        <h2 class="text-sm font-semibold text-slate-900">Distraction time</h2>
+        <h2 class="text-sm font-semibold text-slate-900">{{ $t('dashboard.distractionTime') }}</h2>
         <p class="mt-2 text-2xl font-bold">–</p>
       </div>
       <div class="rounded-lg border border-slate-800 p-4">
-        <h2 class="text-sm font-semibold text-slate-900">Distraction rate</h2>
+        <h2 class="text-sm font-semibold text-slate-900">{{ $t('dashboard.distractionRate') }}</h2>
         <p class="mt-2 text-2xl font-bold">–</p>
       </div>
       <div class="rounded-lg border border-slate-800 p-4">
-        <h2 class="text-sm font-semibold text-slate-900">Distraction Peak Hours</h2>
+        <h2 class="text-sm font-semibold text-slate-900">{{ $t('dashboard.distractionPeakHours') }}</h2>
         <p class="mt-2 text-2xl font-bold">–</p>
       </div>
     </div>
 
     <div class="rounded-lg border border-slate-800 p-4">
-      <h2 class="text-sm font-semibold text-slate-900 mb-2">Insight AI</h2>
+      <h2 class="text-sm font-semibold text-slate-900 mb-2">{{ $t('dashboard.insightAI') }}</h2>
       <p class="text-slate-900 text-sm">
-        Spazio per mostrare un testo generato dall'AI sui pattern.
+        {{ $t('dashboard.insightText') }}
       </p>
     </div>
   </section>

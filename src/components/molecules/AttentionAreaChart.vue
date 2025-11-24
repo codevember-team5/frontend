@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+import { useI18n } from 'vue-i18n'
 import type { ChartConfig } from '@/components/ui/chart'
-import { VisXYContainer, VisArea, VisAxis, VisTooltip } from '@unovis/vue'
+import { VisXYContainer, VisArea, VisAxis } from '@unovis/vue'
 import { ChartContainer } from '@/components/ui/chart'
 
+const { t, locale } = useI18n()
 // Generate hourly data for the last 7 days (9:00 - 17:00)
 const generateHourlyData = () => {
   const data = []
@@ -30,11 +32,13 @@ const generateHourlyData = () => {
 
 const chartData = generateHourlyData()
 
+console.log(JSON.stringify(chartData), 'AttentionAreaChart')
+
 type Data = (typeof chartData)[number]
 
 const chartConfig = {
   attention: {
-    label: 'Livello di concentrazione',
+    label: t('charts.attentionArea.label'),
     color: '#8b5cf6',
   },
 } satisfies ChartConfig
@@ -42,10 +46,10 @@ const chartConfig = {
 const x = (d: Data) => d.date
 const y = (d: Data) => d.value
 
-// Formattatore per l'asse X - mostra sempre giorno e mese
+// Date formatter for X axis - always shows day and month
 const dateFormatter = (timestamp: number) => {
   const date = new Date(timestamp)
-  return date.toLocaleDateString('it-IT', {
+  return date.toLocaleDateString(locale.value, {
     day: 'numeric',
     month: 'short'
   })
@@ -78,7 +82,7 @@ const handleMouseLeave = () => {
 
 const formatTooltipDate = (timestamp: number) => {
   const date = new Date(timestamp)
-  return date.toLocaleDateString('it-IT', {
+  return date.toLocaleDateString(locale.value, {
     day: 'numeric',
     month: 'short',
     hour: '2-digit',
@@ -90,8 +94,8 @@ const formatTooltipDate = (timestamp: number) => {
 <template>
   <div class="w-full">
     <div>
-      <h3 class="text-lg font-semibold">Livello di Concentrazione</h3>
-      <p class="text-sm text-muted-foreground">Ultimi 7 giorni (9:00 - 17:00)</p>
+      <h3 class="text-lg font-semibold">{{ $t('charts.attentionArea.title') }}</h3>
+      <p class="text-sm text-muted-foreground">{{ $t('charts.attentionArea.subtitle') }}</p>
     </div>
     <div>
       <ChartContainer :config="chartConfig">
@@ -112,7 +116,7 @@ const formatTooltipDate = (timestamp: number) => {
                 {{ formatTooltipDate(tooltipData.date) }}
               </div>
               <div class="text-gray-700">
-                Livello: <strong>{{ tooltipData.value }}/10</strong>
+                {{ $t('charts.attentionArea.level') }}: <strong>{{ tooltipData.value }}/10</strong>
               </div>
             </div>
           </div>

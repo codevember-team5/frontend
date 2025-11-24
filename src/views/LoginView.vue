@@ -25,10 +25,10 @@ const handleSubmit = async () => {
             <div class="text-center">
                 <img :src="logoUrl" alt="Logo" class="mx-auto h-16 w-auto mb-4" />
                 <h2 class="mt-6 text-3xl font-bold tracking-tight text-zinc-900 dark:text-zinc-50">
-                    Welcome back
+                    {{ $t('auth.login.title') }}
                 </h2>
                 <p class="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
-                    Please sign in to your account
+                    {{ $t('auth.login.subtitle') }}
                 </p>
             </div>
 
@@ -37,24 +37,24 @@ const handleSubmit = async () => {
                 <form class="space-y-6" @submit.prevent="handleSubmit">
                     <div>
                         <label for="identity" class="block text-sm font-medium text-zinc-700 dark:text-zinc-300">
-                            Email or Full Name
+                            {{ $t('auth.login.identity') }}
                         </label>
                         <div class="mt-1">
                             <input id="identity" v-model="form.identity" name="identity" type="text" required
                                 class="block w-full rounded-md border-zinc-300 dark:border-zinc-700 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm bg-white dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100 py-2 px-3 transition-colors duration-200"
-                                placeholder="john@example.com or John Doe" />
+                                :placeholder="$t('auth.login.identityPlaceholder')" />
                         </div>
                     </div>
 
                     <div>
                         <label for="password" class="block text-sm font-medium text-zinc-700 dark:text-zinc-300">
-                            Password
+                            {{ $t('auth.login.password') }}
                         </label>
                         <div class="mt-1">
                             <input id="password" v-model="form.password" name="password" type="password"
                                 autocomplete="current-password" required
                                 class="block w-full rounded-md border-zinc-300 dark:border-zinc-700 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm bg-white dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100 py-2 px-3 transition-colors duration-200"
-                                placeholder="••••••••" />
+                                :placeholder="$t('auth.login.passwordPlaceholder')" />
                         </div>
                     </div>
 
@@ -63,14 +63,14 @@ const handleSubmit = async () => {
                             <input id="remember-me" name="remember-me" type="checkbox"
                                 class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-zinc-300 rounded" />
                             <label for="remember-me" class="ml-2 block text-sm text-zinc-900 dark:text-zinc-300">
-                                Remember me
+                                {{ $t('auth.login.rememberMe') }}
                             </label>
                         </div>
 
                         <div class="text-sm">
                             <a href="#"
                                 class="font-medium text-indigo-600 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300">
-                                Forgot your password?
+                                {{ $t('auth.login.forgotPassword') }}
                             </a>
                         </div>
                     </div>
@@ -79,8 +79,8 @@ const handleSubmit = async () => {
                         <Button type="submit"
                             class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all duration-200"
                             :disabled="isLoading">
-                            <span v-if="isLoading">Signing in...</span>
-                            <span v-else>Sign in</span>
+                            <span v-if="isLoading">{{ $t('auth.login.signingIn') }}</span>
+                            <span v-else>{{ $t('auth.login.signIn') }}</span>
                         </Button>
                     </div>
                 </form>
@@ -92,7 +92,7 @@ const handleSubmit = async () => {
                         </div>
                         <div class="relative flex justify-center text-sm">
                             <span class="px-2 bg-white dark:bg-zinc-900 text-zinc-500">
-                                Don't have an account?
+                                {{ $t('auth.login.noAccount') }}
                             </span>
                         </div>
                     </div>
@@ -100,7 +100,7 @@ const handleSubmit = async () => {
                     <div class="mt-6 grid grid-cols-1 gap-3">
                         <router-link to="/register"
                             class="w-full inline-flex justify-center py-2 px-4 border border-zinc-300 dark:border-zinc-700 rounded-md shadow-sm bg-white dark:bg-zinc-800 text-sm font-medium text-zinc-500 dark:text-zinc-400 hover:bg-zinc-50 dark:hover:bg-zinc-700 transition-colors duration-200">
-                            Create an account
+                            {{ $t('auth.login.createAccount') }}
                         </router-link>
                     </div>
                 </div>

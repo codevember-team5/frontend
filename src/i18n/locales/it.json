@@ -1,0 +1,168 @@
+{
+  "app": {
+    "title": "Personal Productivity AI",
+    "footer": "November Camp 2025 · Personal Productivity AI"
+  },
+  "nav": {
+    "dashboard": "Dashboard",
+    "patterns": "I miei pattern",
+    "sources": "Sorgenti dati",
+    "users": "Utenti",
+    "profile": "Profilo"
+  },
+  "auth": {
+    "login": {
+      "title": "Bentornato",
+      "subtitle": "Accedi al tuo account",
+      "identity": "Email o Nome completo",
+      "identityPlaceholder": "mario{'@'}example.com o Mario Rossi",
+      "password": "Password",
+      "passwordPlaceholder": "••••••••",
+      "rememberMe": "Ricordami",
+      "forgotPassword": "Password dimenticata?",
+      "signIn": "Accedi",
+      "signingIn": "Accesso in corso...",
+      "noAccount": "Non hai un account?",
+      "createAccount": "Crea un account"
+    },
+    "register": {
+      "title": "Crea un account",
+      "subtitle": "Inserisci i tuoi dati per creare il tuo account",
+      "fullName": "Nome completo",
+      "fullNamePlaceholder": "Mario Rossi",
+      "email": "Indirizzo email",
+      "emailPlaceholder": "mario{'@'}example.com",
+      "password": "Password",
+      "passwordPlaceholder": "••••••••",
+      "signUp": "Registrati",
+      "creatingAccount": "Creazione account...",
+      "alreadyHaveAccount": "Hai già un account?",
+      "signIn": "Accedi",
+      "successMessage": "Registrazione completata! Effettua il login.",
+      "errorMessage": "Registrazione fallita. Riprova."
+    }
+  },
+  "profile": {
+    "title": "Impostazioni profilo",
+    "nav": {
+      "personalInfo": "Informazioni personali",
+      "devices": "Dispositivi"
+    },
+    "general": {
+      "title": "Informazioni personali",
+      "fullName": "Nome completo",
+      "email": "Email",
+      "workingHours": "Orari di lavoro",
+      "startTime": "Ora inizio",
+      "endTime": "Ora fine",
+      "workingDays": "Giorni lavorativi",
+      "days": {
+        "Mon": "Lunedì",
+        "Tue": "Martedì",
+        "Wed": "Mercoledì",
+        "Thu": "Giovedì",
+        "Fri": "Venerdì",
+        "Sat": "Sabato",
+        "Sun": "Domenica"
+      },
+      "save": "Salva modifiche",
+      "saving": "Salvataggio...",
+      "successMessage": "Profilo salvato con successo!"
+    },
+    "devices": {
+      "title": "Gestisci dispositivi",
+      "deviceId": "ID dispositivo",
+      "deviceIdPlaceholder": "Inserisci ID dispositivo",
+      "assign": "Assegna dispositivo",
+      "unassign": "Rimuovi dispositivo",
+      "assignSuccess": "Dispositivo {deviceId} assegnato con successo.",
+      "unassignSuccess": "Dispositivo {deviceId} rimosso con successo.",
+      "assignError": "Impossibile assegnare il dispositivo.",
+      "unassignError": "Impossibile rimuovere il dispositivo."
+    }
+  },
+  "users": {
+    "title": "Utenti",
+    "addUser": "Aggiungi utente",
+    "fullName": "Nome completo",
+    "email": "Email",
+    "actions": "Azioni",
+    "edit": "Modifica",
+    "delete": "Elimina",
+    "loading": "Caricamento...",
+    "noUsers": "Nessun utente trovato.",
+    "showing": "Visualizzazione",
+    "to": "a",
+    "previous": "Precedente",
+    "next": "Successivo",
+    "deleteConfirm": "Sei sicuro di voler eliminare questo utente?",
+    "deleteError": "Impossibile eliminare l'utente",
+    "saveError": "Impossibile salvare l'utente",
+    "modal": {
+      "editTitle": "Modifica utente",
+      "createTitle": "Aggiungi utente",
+      "fullName": "Nome completo",
+      "email": "Email",
+      "password": "Password",
+      "cancel": "Annulla",
+      "save": "Salva"
+    }
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "subtitle": "Spazio per mostrare KPI, grafici e un riassunto della produttività.",
+    "focusTime": "Tempo di focus",
+    "productivitySessions": "Sessioni di produttività",
+    "productivityScore": "Punteggio produttività",
+    "distractionTime": "Tempo di distrazione",
+    "distractionRate": "Tasso di distrazione",
+    "distractionPeakHours": "Ore di picco distrazione",
+    "insightAI": "Insight AI",
+    "insightText": "Spazio per mostrare un testo generato dall'AI sui pattern."
+  },
+  "patterns": {
+    "title": "I miei Pattern",
+    "subtitle": "Spazio per mostrare i pattern dell'AI sul modo di lavorare.",
+    "exampleTitle": "Esempio di pattern",
+    "exampleContent": "Ad es: più produttivo tra le 9:00 e le 11:00."
+  },
+  "sources": {
+    "title": "Sorgenti dati",
+    "subtitle": "Spazio per mostrare le sorgenti dati collegate tramite MCP (calendar, notion, whatsapp, ecc.).",
+    "tableInfo": "Spazio per mostrare una tabella con:",
+    "sourceName": "Nome sorgente",
+    "status": "Stato (connected / error)",
+    "other": "Altro..."
+  },
+  "charts": {
+    "appsDonut": {
+      "title": "Tempo di utilizzo applicazioni (%)",
+      "subtitle": "Oggi",
+      "usage": "Utilizzo",
+      "label": "Utilizzo applicazioni"
+    },
+    "appsUsage": {
+      "title": "Tempo di utilizzo applicazioni (ore)",
+      "subtitle": "Oggi",
+      "applications": "Applicazioni",
+      "hours": "Ore"
+    },
+    "attentionArea": {
+      "title": "Livello di Concentrazione",
+      "subtitle": "Ultimi 7 giorni (9:00 - 17:00)",
+      "label": "Livello di concentrazione",
+      "level": "Livello"
+    }
+  },
+  "devices": {
+    "title": "Gestisci Dispositivi",
+    "deviceId": "ID Dispositivo",
+    "deviceIdPlaceholder": "Inserisci ID Dispositivo",
+    "assignButton": "Assegna Dispositivo",
+    "unassignButton": "Rimuovi Dispositivo",
+    "assignSuccess": "Dispositivo {deviceId} assegnato con successo.",
+    "unassignSuccess": "Dispositivo {deviceId} rimosso con successo.",
+    "assignError": "Errore nell'assegnazione del dispositivo.",
+    "unassignError": "Errore nella rimozione del dispositivo."
+  }
+}

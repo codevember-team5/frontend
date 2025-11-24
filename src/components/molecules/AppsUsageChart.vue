@@ -1,9 +1,11 @@
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n'
 import type { ChartConfig } from '@/components/ui/chart'
 import { VisAxis, VisGroupedBar, VisXYContainer, VisTooltip } from '@unovis/vue'
-import { GroupedBar } from '@unovis/ts' // Imported core class
+import { GroupedBar } from '@unovis/ts'
 import { ChartContainer } from '@/components/ui/chart'
 
+const { t } = useI18n()
 const chartData = [
   { name: 'Slack', hours: 4.2 },
   { name: 'VS Code', hours: 6.5 },
@@ -17,11 +19,11 @@ type Label = (typeof chartData)[number] & { name: string }
 
 const chartConfig = {
   name: {
-    label: 'Applications',
+    label: t('charts.appsUsage.applications'),
     color: '#60a5fa',
   },
   hours: {
-    label: 'Hours',
+    label: t('charts.appsUsage.hours'),
     color: '#2563eb',
   },
 } satisfies ChartConfig
@@ -41,8 +43,8 @@ const tooltipTemplate = (d: Data) => {
 <template>
   <div class="w-full">
     <div class="mb-6">
-      <h3 class="text-lg font-semibold">Tempo di utilizzo applicazioni (ore)</h3>
-      <p class="text-sm text-muted-foreground">Oggi</p>
+      <h3 class="text-lg font-semibold">{{ $t('charts.appsUsage.title') }}</h3>
+      <p class="text-sm text-muted-foreground">{{ $t('charts.appsUsage.subtitle') }}</p>
     </div>
     <ChartContainer :config="chartConfig">
       <VisXYContainer :data="chartData" :height="300">
