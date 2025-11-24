@@ -1,11 +1,25 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import AppsDonutChart from '@/components/molecules/AppsDonutChart.vue'
+import AppsUsageChart from '@/components/molecules/AppsUsageChart.vue'
+import AttentionAreaChart from '@/components/molecules/AttentionAreaChart.vue'
+</script>
 
 <template>
-  <section class="space-y-4">
+  <section class="space-y-6">
     <h1 class="text-2xl font-bold">Dashboard</h1>
     <p class="text-sm text-slate-900">
       Spazio per mostrare KPI, grafici e un riassunto della produttività.
     </p>
+
+    <div class="flex flex-col gap-6">
+      <div class="flex gap-6">
+        <AppsUsageChart />
+        <AppsDonutChart />
+      </div>
+      <div class="flex gap-6">
+        <AttentionAreaChart />
+      </div>
+    </div>
 
     <div class="grid gap-4 md:grid-cols-3">
       <div class="rounded-lg border border-slate-800 p-4">

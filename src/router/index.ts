@@ -29,6 +29,22 @@ const router = createRouter({
           name: 'sources',
           component: SourcesView,
         },
+        {
+          path: 'profile',
+          component: () => import('../views/ProfileView.vue'),
+          children: [
+            {
+              path: '',
+              name: 'profile-general',
+              component: () => import('../views/ProfileGeneralView.vue'),
+            },
+            {
+              path: 'devices',
+              name: 'profile-devices',
+              component: () => import('../views/DevicesView.vue'),
+            },
+          ],
+        },
       ],
     },
     {

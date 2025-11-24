@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { Button } from '@/components/ui/button'
+import logoUrl from '@/assets/logo.png'
 
 const form = ref({
     identity: '',
@@ -22,6 +23,7 @@ const handleSubmit = async () => {
     <div class="min-h-screen flex items-center justify-center bg-zinc-50 dark:bg-zinc-950 p-4">
         <div class="w-full max-w-md space-y-8">
             <div class="text-center">
+                <img :src="logoUrl" alt="Logo" class="mx-auto h-16 w-auto mb-4" />
                 <h2 class="mt-6 text-3xl font-bold tracking-tight text-zinc-900 dark:text-zinc-50">
                     Welcome back
                 </h2>
