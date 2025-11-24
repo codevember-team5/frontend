@@ -53,14 +53,29 @@ const router = createRouter({
       ],
     },
     {
+      path: '/auth',
+      component: () => import('../layouts/AuthLayout.vue'),
+      children: [
+        {
+          path: 'register',
+          name: 'register',
+          component: () => import('../views/RegisterView.vue'),
+        },
+        {
+          path: 'login',
+          name: 'login',
+          component: () => import('../views/LoginView.vue'),
+        },
+      ],
+    },
+    // Redirects for backward compatibility
+    {
       path: '/register',
-      name: 'register',
-      component: () => import('../views/RegisterView.vue'),
+      redirect: '/auth/register',
     },
     {
       path: '/login',
-      name: 'login',
-      component: () => import('../views/LoginView.vue'),
+      redirect: '/auth/login',
     },
   ],
 })

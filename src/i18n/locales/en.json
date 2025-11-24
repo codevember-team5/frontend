@@ -22,6 +22,8 @@
       "forgotPassword": "Forgot your password?",
       "signIn": "Sign in",
       "signingIn": "Signing in...",
+      "successMessage": "Login successful! Redirecting...",
+      "errorMessage": "Login failed. Please check your credentials.",
       "noAccount": "Don't have an account?",
       "createAccount": "Create an account"
     },

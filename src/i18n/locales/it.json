@@ -22,6 +22,8 @@
       "forgotPassword": "Password dimenticata?",
       "signIn": "Accedi",
       "signingIn": "Accesso in corso...",
+      "successMessage": "Accesso effettuato! Reindirizzamento...",
+      "errorMessage": "Accesso fallito. Controlla le tue credenziali.",
       "noAccount": "Non hai un account?",
       "createAccount": "Crea un account"
     },
