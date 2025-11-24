@@ -1,11 +1,16 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+import { useI18n } from 'vue-i18n'
+import { useToast } from '@/composables/useToast'
 import { Button } from '@/components/ui/button'
 import logoUrl from '@/assets/logo.png'
 import { userService } from '@/services/user.service'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
+
+const { t } = useI18n()
+const toast = useToast()
 
 const form = ref({
   fullName: '',
@@ -23,11 +28,12 @@ const handleSubmit = async () => {
       email: form.value.email,
       password: form.value.password,
     })
-    alert('Registration successful! Please log in.')
+    toast.success(t('auth.register.successMessage'))
+    form.value = { fullName: '', email: '', password: '' }
     router.push('/login')
   } catch (error) {
-    console.error('Registration failed:', error)
-    alert('Registration failed. Please try again.')
+    console.error('Registration error:', error)
+    toast.error(t('auth.register.errorMessage'))
   } finally {
     isLoading.value = false
   }
@@ -73,7 +79,7 @@ const handleSubmit = async () => {
 
           <div>
             <label for="password" class="block text-sm font-medium text-zinc-700 dark:text-zinc-300">
-              Password
+              {{ $t('auth.register.password') }}
             </label>
             <div class="mt-1">
               <input id="password" v-model="form.password" name="password" type="password" autocomplete="new-password"
@@ -87,7 +93,7 @@ const handleSubmit = async () => {
             <Button type="submit"
               class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all duration-200"
               :disabled="isLoading">
-              <span v-if="isLoading">{{ $t('auth.register.signingUp') }}</span>
+              <span v-if="isLoading">{{ $t('auth.register.creatingAccount') }}</span>
               <span v-else>{{ $t('auth.register.signUp') }}</span>
             </Button>
           </div>

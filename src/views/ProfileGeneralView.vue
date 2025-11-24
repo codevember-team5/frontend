@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { useToast } from '@/composables/useToast'
 import { Button } from '@/components/ui/button'
 
 const { t } = useI18n()
+const toast = useToast()
 const form = ref({
     fullName: 'Alessandro Micelli', // Mocked initial data
     email: 'alessandro@example.com',
@@ -29,7 +31,7 @@ const handleSave = async () => {
     // Simulate API call
     await new Promise((resolve) => setTimeout(resolve, 1000))
     console.log('Saving profile:', form.value)
-    alert(t('profile.general.successMessage'))
+    toast.success(t('profile.general.successMessage'))
     isLoading.value = false
 }
 </script>

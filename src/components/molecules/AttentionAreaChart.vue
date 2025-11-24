@@ -32,8 +32,6 @@ const generateHourlyData = () => {
 
 const chartData = generateHourlyData()
 
-console.log(JSON.stringify(chartData), 'AttentionAreaChart')
-
 type Data = (typeof chartData)[number]
 
 const chartConfig = {

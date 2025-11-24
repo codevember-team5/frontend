@@ -96,8 +96,11 @@
     "previous": "Precedente",
     "next": "Successivo",
     "deleteConfirm": "Sei sicuro di voler eliminare questo utente?",
-    "deleteError": "Impossibile eliminare l'utente",
-    "saveError": "Impossibile salvare l'utente",
+    "deleteSuccess": "Utente eliminato con successo",
+    "deleteError": "Errore nell'eliminazione dell'utente",
+    "saveError": "Errore nel salvataggio dell'utente",
+    "createSuccess": "Utente creato con successo",
+    "updateSuccess": "Utente aggiornato con successo",
     "modal": {
       "editTitle": "Modifica utente",
       "createTitle": "Aggiungi utente",

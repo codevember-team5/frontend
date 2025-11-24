@@ -1,8 +1,8 @@
-```vue
 <script setup lang="ts">
 import { ref } from 'vue'
 import { RouterLink, RouterView } from 'vue-router'
 import logoUrl from '@/assets/logo.png'
+import ToastContainer from '@/components/ui/ToastContainer.vue'
 
 const mobileMenuOpen = ref(false)
 
@@ -17,6 +17,8 @@ const closeMobileMenu = () => {
 
 <template>
     <div class="min-h-screen bg-slate-100 text-slate-800 flex flex-col">
+        <ToastContainer />
+
         <header class="border-b border-slate-800 bg-slate-900 text-white px-6 py-4">
             <div class="flex items-center justify-between">
                 <div class="font-semibold text-lg flex items-center gap-3">
