@@ -8,22 +8,38 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      redirect: '/dashboard',
+      component: () => import('../layouts/MainLayout.vue'),
+      children: [
+        {
+          path: '',
+          redirect: 'dashboard',
+        },
+        {
+          path: 'dashboard',
+          name: 'dashboard',
+          component: DashboardView,
+        },
+        {
+          path: 'patterns',
+          name: 'patterns',
+          component: PatternsView,
+        },
+        {
+          path: 'sources',
+          name: 'sources',
+          component: SourcesView,
+        },
+      ],
     },
     {
-      path: '/dashboard',
-      name: 'dashboard',
-      component: DashboardView,
+      path: '/register',
+      name: 'register',
+      component: () => import('../views/RegisterView.vue'),
     },
     {
-      path: '/patterns',
-      name: 'patterns',
-      component: PatternsView,
-    },
-    {
-      path: '/sources',
-      name: 'sources',
-      component: SourcesView,
+      path: '/login',
+      name: 'login',
+      component: () => import('../views/LoginView.vue'),
     },
   ],
 })
