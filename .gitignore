@@ -98,6 +98,8 @@ dist
 # Sveltekit cache directory
 .svelte-kit/
 
+.vite/**
+
 # vitepress build output
 **/.vitepress/dist
 
@@ -137,7 +139,3 @@ dist
 # Vite logs files
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
-
-# VSCode settings folder
-.vscode/*
-!.vscode/extensions.json
