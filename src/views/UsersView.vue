@@ -2,6 +2,7 @@
 import { ref, onMounted } from 'vue'
 import { userService } from '@/services/user.service'
 import { Button } from '@/components/ui/button'
+import UserModal from '@/components/molecules/UserModal.vue'
 
 interface User {
     id: string
@@ -14,6 +15,9 @@ const isLoading = ref(false)
 const skip = ref(0)
 const limit = ref(10)
 const total = ref(0) // Assuming backend returns total or we just check if we got less than limit
+
+const isModalOpen = ref(false)
+const editingUser = ref<User | null>(null)
 
 const fetchUsers = async () => {
     isLoading.value = true
@@ -56,13 +60,34 @@ const handleDelete = async (id: string) => {
     }
 }
 
-// Placeholder for edit/create - would typically open a modal
 const handleEdit = (user: User) => {
-    alert(`Edit user ${user.fullname} (ID: ${user.id}) - Implementation pending modal`)
+    editingUser.value = user
+    isModalOpen.value = true
 }
 
 const handleCreate = () => {
-    alert('Create user - Implementation pending modal')
+    editingUser.value = null
+    isModalOpen.value = true
+}
+
+const handleSave = async (userData: any) => {
+    try {
+        if (editingUser.value?.id) {
+            await userService.updateUser(editingUser.value.id, userData)
+        } else {
+            await userService.register(userData)
+        }
+        isModalOpen.value = false
+        fetchUsers()
+    } catch (error) {
+        console.error('Failed to save user:', error)
+        alert('Failed to save user')
+    }
+}
+
+const handleCloseModal = () => {
+    isModalOpen.value = false
+    editingUser.value = null
 }
 
 onMounted(() => {
@@ -173,4 +198,6 @@ onMounted(() => {
             </div>
         </div>
     </div>
+
+    <UserModal :is-open="isModalOpen" :user="editingUser" @close="handleCloseModal" @save="handleSave" />
 </template>

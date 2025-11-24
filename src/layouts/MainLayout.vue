@@ -15,6 +15,7 @@ import logoUrl from '@/assets/logo.png'
                 <RouterLink to="/dashboard" class="hover:underline"> Dashboard </RouterLink>
                 <RouterLink to="/patterns" class="hover:underline"> My Patterns </RouterLink>
                 <RouterLink to="/sources" class="hover:underline"> Data Sources </RouterLink>
+                <RouterLink to="/users" class="hover:underline"> Users </RouterLink>
 
                 <RouterLink to="/profile" class="ml-4">
                     <div
