@@ -28,9 +28,11 @@ const tooltipTemplate = (d: Data) => {
   const data = (d as any).data ? (d as any).data : d
   return `
     <div class="bg-white px-3 py-2 rounded-md shadow-md text-sm">
-      <div class="font-semibold mb-1" style="color: ${data.color}">${data.name}</div>
+      <div class="font-semibold mb-1" style="color: ${data.color};">
+        ${data.name}
+      </div>
       <div>
-        Utilizzo: <strong>${data.value}%</strong>
+        ${chartConfig.usage.label}: <strong>${data.value}%</strong>
       </div>
     </div>
   `
@@ -39,12 +41,8 @@ const tooltipTemplate = (d: Data) => {
 
 <template>
   <div class="w-full">
-    <div class="mb-6">
-      <h3 class="text-lg font-semibold">Tempo di utilizzo applicazioni (%)</h3>
-      <p class="text-sm text-muted-foreground">Oggi</p>
-    </div>
     <ChartContainer :config="chartConfig" class="min-h-[200px] w-full" :label-key="'name'">
-      <VisSingleContainer :data="chartData" :height="300">
+      <VisSingleContainer :data="chartData" :height="260">
         <VisDonut :value="valueFn" :color="colorFn" :arc-width="40" />
         <VisTooltip :triggers="{ [Donut.selectors.segment]: tooltipTemplate }" />
       </VisSingleContainer>

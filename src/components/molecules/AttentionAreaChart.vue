@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import type { ChartConfig } from '@/components/ui/chart'
-import { VisXYContainer, VisArea, VisAxis, VisTooltip } from '@unovis/vue'
+import { VisXYContainer, VisArea, VisAxis } from '@unovis/vue'
 import { ChartContainer } from '@/components/ui/chart'
 
 // Generate hourly data for the last 7 days (9:00 - 17:00)
@@ -25,41 +25,38 @@ const generateHourlyData = () => {
       data.push({ date: timestamp, value })
     }
   }
+
   return data
 }
 
 const chartData = generateHourlyData()
 
-type Data = (typeof chartData)[number]
-
 const chartConfig = {
   attention: {
-    label: 'Livello di concentrazione',
-    color: '#8b5cf6',
+    label: 'Livello di attenzione',
+    color: '#6366f1',
   },
 } satisfies ChartConfig
 
-const x = (d: Data) => d.date
-const y = (d: Data) => d.value
+const x = (d: { date: number; value: number }) => d.date
+const y = (d: { date: number; value: number }) => d.value
 
-// Formattatore per l'asse X - mostra sempre giorno e mese
 const dateFormatter = (timestamp: number) => {
   const date = new Date(timestamp)
   return date.toLocaleDateString('it-IT', {
     day: 'numeric',
-    month: 'short'
+    month: 'short',
   })
 }
 
-// Tooltip data
-const tooltipData = ref<Data | null>(null)
+// Tooltip state
+const tooltipData = ref<{ date: number; value: number } | null>(null)
 const tooltipPosition = ref({ x: 0, y: 0 })
 const showTooltip = ref(false)
 
-// Tooltip handlers
 const handleMouseMove = (event: MouseEvent) => {
-  const container = event.currentTarget as HTMLElement
-  const rect = container.getBoundingClientRect()
+  const target = event.currentTarget as HTMLElement
+  const rect = target.getBoundingClientRect()
   const x = event.clientX - rect.left
 
   // Calculate which data point we're hovering over
@@ -82,42 +79,47 @@ const formatTooltipDate = (timestamp: number) => {
     day: 'numeric',
     month: 'short',
     hour: '2-digit',
-    minute: '2-digit'
+    minute: '2-digit',
   })
 }
 </script>
 
 <template>
   <div class="w-full">
-    <div>
-      <h3 class="text-lg font-semibold">Livello di Concentrazione</h3>
-      <p class="text-sm text-muted-foreground">Ultimi 7 giorni (9:00 - 17:00)</p>
-    </div>
-    <div>
-      <ChartContainer :config="chartConfig">
-        <div class="relative" @mousemove="handleMouseMove" @mouseleave="handleMouseLeave">
-          <VisXYContainer :data="chartData" :height="300">
-            <VisArea :x="x" :y="y" :color="chartConfig.attention.color" :opacity="0.6" />
-            <VisAxis type="x" :tick-format="dateFormatter" :num-ticks="7" />
-            <VisAxis type="y" :domain="[0, 10]" :grid-line="true" :tick-line="false" :tick-format="(d: number) => d" />
-          </VisXYContainer>
+    <ChartContainer :config="chartConfig">
+      <div class="relative" @mousemove="handleMouseMove" @mouseleave="handleMouseLeave">
+        <VisXYContainer :data="chartData" :height="550"
+          ><!-- height="300" -->
+          <VisArea :x="x" :y="y" :color="chartConfig.attention.color" :opacity="0.6" />
+          <VisAxis type="x" :tick-format="dateFormatter" :num-ticks="7" />
+          <VisAxis
+            type="y"
+            :domain="[0, 10]"
+            :grid-line="true"
+            :tick-line="false"
+            :tick-format="(d: number) => d"
+          />
+        </VisXYContainer>
 
-          <!-- Custom Tooltip -->
-          <div v-if="showTooltip && tooltipData" class="fixed pointer-events-none z-50" :style="{
-            left: `${tooltipPosition.x + 10}px`,
-            top: `${tooltipPosition.y - 10}px`,
-          }">
-            <div class="bg-white px-3 py-2 rounded-md shadow-lg text-sm border border-gray-200">
-              <div class="font-semibold mb-1" :style="{ color: chartConfig.attention.color }">
-                {{ formatTooltipDate(tooltipData.date) }}
-              </div>
-              <div class="text-gray-700">
-                Livello: <strong>{{ tooltipData.value }}/10</strong>
-              </div>
+        <!-- Custom Tooltip -->
+        <div
+          v-if="showTooltip && tooltipData"
+          class="pointer-events-none absolute"
+          :style="{
+            left: tooltipPosition.x + 'px',
+            top: tooltipPosition.y + 'px',
+          }"
+        >
+          <div class="bg-white px-3 py-2 rounded-md shadow-lg text-sm border border-gray-200">
+            <div class="font-semibold mb-1" :style="{ color: chartConfig.attention.color }">
+              {{ formatTooltipDate(tooltipData.date) }}
+            </div>
+            <div class="text-gray-700">
+              Livello: <strong>{{ tooltipData.value }}/10</strong>
             </div>
           </div>
         </div>
-      </ChartContainer>
-    </div>
+      </div>
+    </ChartContainer>
   </div>
 </template>
