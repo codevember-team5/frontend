@@ -157,6 +157,10 @@
       "subtitle": "Ultimi 7 giorni (9:00 - 17:00)",
       "label": "Livello di concentrazione",
       "level": "Livello"
+    },
+    "productivityScore": {
+      "title": "Percentuale del tempo di lavoro e di pausa",
+      "label": "Percentuale"
     }
   },
   "devices": {

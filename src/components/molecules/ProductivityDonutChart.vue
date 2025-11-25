@@ -1,9 +1,11 @@
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n'
 import type { ChartConfig } from '@/components/ui/chart'
 import { VisSingleContainer, VisDonut, VisTooltip } from '@unovis/vue'
 import { Donut } from '@unovis/ts'
 import { ChartContainer } from '@/components/ui/chart'
 
+const { t } = useI18n()
 const chartData = [
   { name: 'Produttività', value: 60, color: '#00cc00' },
   { name: 'Distrazione', value: 30, color: '#cc0000' },
@@ -11,12 +13,13 @@ const chartData = [
 ] as const
 
 type Data = (typeof chartData)[number]
+interface Val {
+  data: Data
+}
 
-// Config minimale per ChartContainer (serve solo per coerenza con gli altri grafici)
 const chartConfig = {
   usage: {
-    label: 'Percentuale',
-    // Colore di default, i singoli spicchi usano comunque color dal dato
+    label: t('charts.productivityScore.label'),
     color: '#00cc00',
   },
 } satisfies ChartConfig
@@ -25,8 +28,8 @@ const chartConfig = {
 const valueFn = (d: Data) => d.value
 const colorFn = (d: Data) => d.color
 
-const tooltipTemplate = (d: Data) => {
-  const data = (d as any).data ? (d as any).data : d
+const tooltipTemplate = (d: Val) => {
+  const data = d.data
   return `
     <div class="bg-white px-3 py-2 rounded-md shadow-md text-sm">
       <div class="font-semibold mb-1" style="color: ${data.color};">
@@ -41,26 +44,32 @@ const tooltipTemplate = (d: Data) => {
 </script>
 
 <template>
-  <div class="flex flex-col gap-4 md:flex-row md:items-center">
-    <!-- Donut -->
-    <ChartContainer :config="chartConfig" class="w-full md:w-2/3">
-      <VisSingleContainer :data="chartData" :height="220">
-        <VisDonut :value="valueFn" :color="colorFn" :arc-width="32" />
+  <div class="flex flex-col gap-3 min-h-[300px]">
+    <ChartContainer :config="chartConfig" label-key="name">
+      <VisSingleContainer :data="chartData" :height="200">
+        <VisDonut :value="valueFn" :color="colorFn" :arc-width="40" />
         <VisTooltip :triggers="{ [Donut.selectors.segment]: tooltipTemplate }" />
       </VisSingleContainer>
-    </ChartContainer>
 
-    <!-- Legenda laterale -->
-    <div class="flex flex-col gap-2 text-xs md:w-1/3">
-      <div v-for="item in chartData" :key="item.name" class="flex items-center justify-between">
-        <div class="flex items-center gap-2">
-          <span class="h-3 w-3 rounded-full" :style="{ backgroundColor: item.color }"></span>
-          <span class="text-slate-700">
-            {{ item.name }}
-          </span>
-        </div>
-        <span class="font-semibold text-slate-900"> {{ item.value }}% </span>
-      </div>
-    </div>
+      <!-- Legenda affiancata -->
+      <ul class="space-y-2 text-xs">
+        <li
+          v-for="item in chartData"
+          :key="item.name"
+          class="flex items-center justify-between gap-3"
+        >
+          <div class="flex items-center gap-2">
+            <span
+              class="inline-block h-3 w-3 rounded-full"
+              :style="{ backgroundColor: item.color }"
+            />
+            <span class="text-slate-700">
+              {{ item.name }}
+            </span>
+          </div>
+          <span class="font-semibold text-slate-900"> {{ item.value }}% </span>
+        </li>
+      </ul>
+    </ChartContainer>
   </div>
 </template>

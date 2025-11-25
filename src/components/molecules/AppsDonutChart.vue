@@ -15,6 +15,9 @@ const chartData = [
 ]
 
 type Data = (typeof chartData)[number]
+interface Val {
+  data: Data
+}
 
 const chartConfig = {
   usage: {
@@ -26,15 +29,15 @@ const chartConfig = {
 const valueFn = (d: Data) => d.value
 const colorFn = (d: Data) => d.color
 
-const tooltipTemplate = (d: Data) => {
-  const data = (d as any).data ? (d as any).data : d
+const tooltipTemplate = (d: Val) => {
+  const data = d.data
   return `
     <div class="bg-white px-3 py-2 rounded-md shadow-md text-sm">
       <div class="font-semibold mb-1" style="color: ${data.color};">
         ${data.name}
       </div>
       <div>
-        ${t('charts.appsDonut.usage')}: <strong>${data.value}%</strong>
+        ${chartConfig.usage.label}: <strong>${data.value}%</strong>
       </div>
     </div>
   `
@@ -42,16 +45,32 @@ const tooltipTemplate = (d: Data) => {
 </script>
 
 <template>
-  <div class="w-full">
-    <div class="mb-6">
-      <h3 class="text-lg font-semibold">{{ $t('charts.appsDonut.title') }}</h3>
-      <p class="text-sm text-muted-foreground">{{ $t('charts.appsDonut.subtitle') }}</p>
-    </div>
-    <ChartContainer :config="chartConfig" class="min-h-[200px] w-full" :label-key="'name'">
-      <VisSingleContainer :data="chartData" :height="260">
+  <div class="flex flex-col gap-3 min-h-[300px]">
+    <ChartContainer :config="chartConfig" label-key="name">
+      <VisSingleContainer :data="chartData" :height="200">
         <VisDonut :value="valueFn" :color="colorFn" :arc-width="40" />
         <VisTooltip :triggers="{ [Donut.selectors.segment]: tooltipTemplate }" />
       </VisSingleContainer>
     </ChartContainer>
+
+    <!-- Legenda affiancata -->
+    <ul class="space-y-2 text-xs">
+      <li
+        v-for="item in chartData"
+        :key="item.name"
+        class="flex items-center justify-between gap-3"
+      >
+        <div class="flex items-center gap-2">
+          <span
+            class="inline-block h-3 w-3 rounded-full"
+            :style="{ backgroundColor: item.color }"
+          />
+          <span class="text-slate-700">
+            {{ item.name }}
+          </span>
+        </div>
+        <span class="font-semibold text-slate-900"> {{ item.value }}% </span>
+      </li>
+    </ul>
   </div>
 </template>
