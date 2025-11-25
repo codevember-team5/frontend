@@ -1,22 +1,73 @@
 <script setup lang="ts">
+import { ref, onMounted } from 'vue'
 import { useI18n } from 'vue-i18n'
 import type { ChartConfig } from '@/components/ui/chart'
 import { VisSingleContainer, VisDonut, VisTooltip } from '@unovis/vue'
+// import { useAuthStore } from '@/stores/auth'
+import { historyService } from '@/services/history.service'
 import { Donut } from '@unovis/ts'
 import { ChartContainer } from '@/components/ui/chart'
 
 const { t } = useI18n()
-const chartData = [
-  { name: 'Slack', value: 15, color: '#E01E5A' },
-  { name: 'VS Code', value: 40, color: '#007ACC' },
-  { name: 'Chrome', value: 20, color: '#4285F4' },
-  { name: 'Figma', value: 10, color: '#F24E1E' },
-  { name: 'Pause', value: 15, color: '#64748b' },
-]
+// const authStore = useAuthStore()
+const deviceId = ref('963363238902')
+const message = ref('')
+const isError = ref(false)
+const isLoading = ref(false)
+const chartData = ref<ChartData>([])
+const categories = ref<Category[]>([])
 
-type Data = (typeof chartData)[number]
-interface Val {
-  data: Data
+interface ChartDataWrapper {
+  data: ChartDataItem
+}
+interface Category {
+  category: string
+  percentage: number
+}
+
+interface ChartDataItem {
+  name: string
+  value: number
+  color?: string
+  percentage?: number
+}
+
+type ChartData = ChartDataItem[]
+
+const stringToHexColor = (str: string) => {
+  let hash = 0
+
+  for (let i = 0; i < str.length; i++) {
+    hash = str.charCodeAt(i) + ((hash << 5) - hash)
+  }
+
+  let color = '#'
+
+  for (let i = 0; i < 3; i++) {
+    const value = (hash >> (i * 8)) & 0xff
+    color += value.toString(16).padStart(2, '0')
+  }
+
+  return color
+}
+
+const getData = async () => {
+  if (!deviceId.value) return
+  isLoading.value = true
+  message.value = ''
+  isError.value = false
+  try {
+    const today = new Date().toISOString().split('T')[0] ?? ''
+    const result = await historyService.getActivitySummary(deviceId.value, today, today)
+    categories.value = result.categories
+    return categories.value
+  } catch (error) {
+    console.error(error)
+    isError.value = true
+    message.value = t('devices.assignError')
+  } finally {
+    isLoading.value = false
+  }
 }
 
 const chartConfig = {
@@ -26,11 +77,11 @@ const chartConfig = {
   },
 } satisfies ChartConfig
 
-const valueFn = (d: Data) => d.value
-const colorFn = (d: Data) => d.color
+const valueFn = (d: ChartDataItem) => d.value
+const colorFn = (d: ChartDataItem) => d.color
 
-const tooltipTemplate = (d: Val) => {
-  const data = d.data
+const tooltipTemplate = (d: ChartDataWrapper) => {
+  const data = d.data as ChartDataItem
   return `
     <div class="bg-white px-3 py-2 rounded-md shadow-md text-sm">
       <div class="font-semibold mb-1" style="color: ${data.color};">
@@ -42,6 +93,16 @@ const tooltipTemplate = (d: Val) => {
     </div>
   `
 }
+
+onMounted(async () => {
+  await getData()
+
+  chartData.value = categories.value.map<ChartDataItem>((category) => ({
+    name: category.category,
+    value: category.percentage,
+    color: stringToHexColor(category.category),
+  }))
+})
 </script>
 
 <template>

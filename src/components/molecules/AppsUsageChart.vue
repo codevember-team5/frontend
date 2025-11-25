@@ -1,21 +1,82 @@
 <script setup lang="ts">
+import { ref, onMounted } from 'vue'
 import { useI18n } from 'vue-i18n'
 import type { ChartConfig } from '@/components/ui/chart'
 import { VisAxis, VisGroupedBar, VisXYContainer, VisTooltip } from '@unovis/vue'
+// import { useAuthStore } from '@/stores/auth'
+import { historyService } from '@/services/history.service'
 import { GroupedBar } from '@unovis/ts'
 import { ChartContainer } from '@/components/ui/chart'
 
 const { t } = useI18n()
-const chartData = [
-  { name: 'Slack', hours: 4.2, color: '#E01E5A' },
-  { name: 'VS Code', hours: 6.5, color: '#007ACC' },
-  { name: 'Chrome', hours: 3.1, color: '#4285F4' },
-  { name: 'Figma', hours: 2.4, color: '#F24E1E' },
-  { name: 'Pause', hours: 1.8, color: '#64748b' },
-]
+// const authStore = useAuthStore()
+const deviceId = ref('963363238902')
+const message = ref('')
+const isError = ref(false)
+const isLoading = ref(false)
+const chartData = ref<ChartData>([])
+const categories = ref<Category[]>([])
 
-type Data = (typeof chartData)[number]
-type Label = (typeof chartData)[number] & { name: string }
+interface Category {
+  category: string
+  total_seconds: number
+}
+
+interface ChartDataItem {
+  name: string
+  hours: number
+  color?: string
+}
+
+type ChartData = ChartDataItem[]
+type Data = ChartData[number]
+type Label = ChartData[number] & { name: string }
+
+const stringToHexColor = (str: string) => {
+  let hash = 0
+
+  for (let i = 0; i < str.length; i++) {
+    hash = str.charCodeAt(i) + ((hash << 5) - hash)
+  }
+
+  let color = '#'
+
+  for (let i = 0; i < 3; i++) {
+    const value = (hash >> (i * 8)) & 0xff
+    color += value.toString(16).padStart(2, '0')
+  }
+
+  return color
+}
+
+const getData = async () => {
+  if (!deviceId.value) return
+  isLoading.value = true
+  message.value = ''
+  isError.value = false
+  try {
+    const today = new Date().toISOString().split('T')[0] ?? ''
+    const result = await historyService.getActivitySummary(deviceId.value, today, today)
+    categories.value = result.categories
+    return categories.value
+  } catch (error) {
+    console.error(error)
+    isError.value = true
+    message.value = t('devices.assignError')
+  } finally {
+    isLoading.value = false
+  }
+}
+
+onMounted(async () => {
+  await getData()
+
+  chartData.value = categories.value.map<ChartDataItem>((category) => ({
+    name: category.category,
+    hours: Math.round(category.total_seconds / 3600),
+    color: stringToHexColor(category.category),
+  }))
+})
 
 const chartConfig = {
   name: {
@@ -43,9 +104,9 @@ const tooltipTemplate = (d: Data) => {
 </script>
 
 <template>
-  <div class="flex flex-col gap-3 min-h-[300px]">
+  <div class="flex flex-col gap-3">
     <ChartContainer :config="chartConfig">
-      <VisXYContainer :data="chartData" :height="260">
+      <VisXYContainer :data="chartData">
         <VisGroupedBar
           :x="(d: Data, i: number) => i"
           :y="[(d: Label) => d.hours]"

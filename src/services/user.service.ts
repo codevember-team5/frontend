@@ -27,7 +27,7 @@ export class UserService extends ApiService {
     return response.data
   }
 
-  async updateUser(userId: string, data: any) {
+  async updateUser(userId: string, data: unknown) {
     const response = await this.api.put(`/user/${userId}`, data)
     return response.data
   }

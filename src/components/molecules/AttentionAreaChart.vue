@@ -133,7 +133,7 @@ const formatTooltipDate = (timestamp: number) => {
         @mouseleave="handleMouseLeave"
       >
         <div class="w-full">
-          <VisXYContainer :data="chartData" :height="chartHeight">
+          <VisXYContainer :data="chartData">
             <VisArea :x="x" :y="y" :color="chartConfig.attention.color" :opacity="0.6" />
             <VisAxis type="x" :tick-format="dateFormatter" :num-ticks="7" />
             <VisAxis

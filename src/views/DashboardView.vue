@@ -10,16 +10,16 @@ import ProductivityDonutChart from '@/components/molecules/ProductivityDonutChar
     <h1 class="text-2xl font-bold">{{ $t('dashboard.title') }}</h1>
 
     <!-- Prima riga: Focus time + Productivity sessions + KPI placeholder -->
-    <div class="grid gap-4 md:grid-cols-3">
-      <!-- Focus time + istogramma orizzontale -->
-      <div class="rounded-lg bg-white p-4 flex flex-col gap-3 border border-slate-800">
-        <div>
-          <h2 class="text-sm font-semibold text-slate-900">{{ $t('dashboard.focusTime') }}</h2>
-          <p class="text-xs text-slate-500">{{ $t('charts.appsUsage.title') }}</p>
-        </div>
-        <AppsUsageChart />
-      </div>
 
+    <!-- Focus time + istogramma orizzontale -->
+    <div class="rounded-lg bg-white p-4 flex flex-col gap-3 border border-slate-800">
+      <div>
+        <h2 class="text-sm font-semibold text-slate-900">{{ $t('dashboard.focusTime') }}</h2>
+        <p class="text-xs text-slate-500">{{ $t('charts.appsUsage.title') }}</p>
+      </div>
+      <AppsUsageChart />
+    </div>
+    <div class="grid gap-4 md:grid-cols-2">
       <!-- Productivity sessions + torta ad anello + legenda -->
       <div class="rounded-lg bg-white p-4 flex flex-col gap-3 border border-slate-800">
         <div>
