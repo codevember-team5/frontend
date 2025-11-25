@@ -1,10 +1,5 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
-import { Button } from '@/components/ui/button'
-
-function handleClick() {
-  alert('cliccato!')
-}
 </script>
 
 <template>
@@ -22,8 +17,9 @@ function handleClick() {
     </header>
 
     <main class="p-6 flex-1">
-      <Button @click="handleClick"> Cliccami 👋 - Prova bottone </Button>
-      <RouterView />
+      <div class="max-w-6xl mx-auto">
+        <RouterView />
+      </div>
     </main>
     <footer class="bg-slate-900 text-white border-t border-slate-700 px-6 py-3 text-xs text-center">
       November Camp 2025 · Personal Productivity AI
