@@ -8,22 +8,74 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      redirect: '/dashboard',
+      component: () => import('../layouts/MainLayout.vue'),
+      children: [
+        {
+          path: '',
+          redirect: 'dashboard',
+        },
+        {
+          path: 'dashboard',
+          name: 'dashboard',
+          component: DashboardView,
+        },
+        {
+          path: 'patterns',
+          name: 'patterns',
+          component: PatternsView,
+        },
+        {
+          path: 'sources',
+          name: 'sources',
+          component: SourcesView,
+        },
+        {
+          path: 'profile',
+          component: () => import('../views/ProfileView.vue'),
+          children: [
+            {
+              path: '',
+              name: 'profile-general',
+              component: () => import('../views/ProfileGeneralView.vue'),
+            },
+            {
+              path: 'devices',
+              name: 'profile-devices',
+              component: () => import('../views/DevicesView.vue'),
+            },
+          ],
+        },
+        {
+          path: 'users',
+          name: 'users',
+          component: () => import('../views/UsersView.vue'),
+        },
+      ],
     },
     {
-      path: '/dashboard',
-      name: 'dashboard',
-      component: DashboardView,
+      path: '/auth',
+      component: () => import('../layouts/AuthLayout.vue'),
+      children: [
+        {
+          path: 'register',
+          name: 'register',
+          component: () => import('../views/RegisterView.vue'),
+        },
+        {
+          path: 'login',
+          name: 'login',
+          component: () => import('../views/LoginView.vue'),
+        },
+      ],
+    },
+    // Redirects for backward compatibility
+    {
+      path: '/register',
+      redirect: '/auth/register',
     },
     {
-      path: '/patterns',
-      name: 'patterns',
-      component: PatternsView,
-    },
-    {
-      path: '/sources',
-      name: 'sources',
-      component: SourcesView,
+      path: '/login',
+      redirect: '/auth/login',
     },
   ],
 })

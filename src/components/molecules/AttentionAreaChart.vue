@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+import { useI18n } from 'vue-i18n'
 import type { ChartConfig } from '@/components/ui/chart'
 import { VisXYContainer, VisArea, VisAxis } from '@unovis/vue'
 import { ChartContainer } from '@/components/ui/chart'
 
+const { t, locale } = useI18n()
 // Generate hourly data for the last 7 days (9:00 - 17:00)
 const generateHourlyData = () => {
   const data = []
@@ -33,8 +35,8 @@ const chartData = generateHourlyData()
 
 const chartConfig = {
   attention: {
-    label: 'Livello di attenzione',
-    color: '#6366f1',
+    label: t('charts.attentionArea.label'),
+    color: '#8b5cf6',
   },
 } satisfies ChartConfig
 
@@ -43,7 +45,7 @@ const y = (d: { date: number; value: number }) => d.value
 
 const dateFormatter = (timestamp: number) => {
   const date = new Date(timestamp)
-  return date.toLocaleDateString('it-IT', {
+  return date.toLocaleDateString(locale.value, {
     day: 'numeric',
     month: 'short',
   })
@@ -75,7 +77,7 @@ const handleMouseLeave = () => {
 
 const formatTooltipDate = (timestamp: number) => {
   const date = new Date(timestamp)
-  return date.toLocaleDateString('it-IT', {
+  return date.toLocaleDateString(locale.value, {
     day: 'numeric',
     month: 'short',
     hour: '2-digit',
@@ -86,6 +88,10 @@ const formatTooltipDate = (timestamp: number) => {
 
 <template>
   <div class="w-full">
+    <div>
+      <h3 class="text-lg font-semibold">{{ $t('charts.attentionArea.title') }}</h3>
+      <p class="text-sm text-muted-foreground">{{ $t('charts.attentionArea.subtitle') }}</p>
+    </div>
     <ChartContainer :config="chartConfig">
       <div class="relative" @mousemove="handleMouseMove" @mouseleave="handleMouseLeave">
         <VisXYContainer :data="chartData" :height="550"

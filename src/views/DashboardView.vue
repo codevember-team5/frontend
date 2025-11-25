@@ -14,31 +14,27 @@ const appsLegend = [
 </script>
 
 <template>
-  <section class="space-y-4">
-    <header class="space-y-1">
-      <h1 class="text-2xl font-bold">Dashboard</h1>
-      <p class="text-sm text-slate-900">
-        KPI grafici e riassunto della produttività: distribuzione del tempo e del livello di
-        concentrazione.
-      </p>
-    </header>
+  <section class="space-y-6">
+    <h1 class="text-2xl font-bold">{{ $t('dashboard.title') }}</h1>
+    <p class="text-sm text-slate-900">
+      {{ $t('dashboard.subtitle') }}
+    </p>
 
     <!-- Prima riga: Focus time + Productivity sessions + KPI placeholder -->
     <div class="grid gap-4 md:grid-cols-3">
       <!-- Focus time + istogramma orizzontale -->
       <div class="rounded-lg bg-white p-4 flex flex-col gap-3 border border-slate-800">
         <div>
-          <h2 class="text-sm font-semibold text-slate-900">Tempo di concentrazione</h2>
+          <h2 class="text-sm font-semibold text-slate-900">{{ $t('dashboard.focusTime') }}</h2>
           <p class="text-xs text-slate-500">Distribuzione del tempo per applicazione (ore)</p>
         </div>
-
         <AppsUsageChart />
       </div>
 
       <!-- Productivity sessions + torta ad anello + legenda -->
       <div class="rounded-lg bg-white p-4 flex flex-col gap-3 border border-slate-800">
         <div>
-          <h2 class="text-sm font-semibold text-slate-900">Sessioni produttive</h2>
+          <h2 class="text-sm font-semibold text-slate-900">{{ $t('dashboard.productivitySessions') }}</h2>
           <p class="text-xs text-slate-500">Percentuale di utilizzo per applicazione</p>
         </div>
 
@@ -68,9 +64,8 @@ const appsLegend = [
       </div>
 
       <!-- Terzo riquadro: placeholder KPI aggiuntivo -->
-      <!--  <div class="rounded-lg bg-white p-4 flex flex-col gap-2 border border-slate-800"> -->
       <div class="rounded-lg bg-white p-4 flex flex-col gap-2 border border-slate-800 h-90">
-        <h2 class="text-sm font-semibold text-slate-900">Productivity - Distraction - Break</h2>
+        <h2 class="text-sm font-semibold text-slate-900">{{ $t('dashboard.productivityScore') }}</h2>
         <p class="mt-1 text-xs text-slate-500">
           Distribuzione percentuale (0–100%) del tempo di lavoro e di pausa
         </p>

@@ -1,9 +1,11 @@
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n'
 import type { ChartConfig } from '@/components/ui/chart'
 import { VisSingleContainer, VisDonut, VisTooltip } from '@unovis/vue'
 import { Donut } from '@unovis/ts'
 import { ChartContainer } from '@/components/ui/chart'
 
+const { t } = useI18n()
 const chartData = [
   { name: 'Slack', value: 15, color: '#E01E5A' },
   { name: 'VS Code', value: 40, color: '#007ACC' },
@@ -16,7 +18,7 @@ type Data = (typeof chartData)[number]
 
 const chartConfig = {
   usage: {
-    label: 'Utilizzo applicazioni',
+    label: t('charts.appsDonut.label'),
     color: '#2563eb',
   },
 } satisfies ChartConfig
@@ -32,7 +34,7 @@ const tooltipTemplate = (d: Data) => {
         ${data.name}
       </div>
       <div>
-        ${chartConfig.usage.label}: <strong>${data.value}%</strong>
+        ${t('charts.appsDonut.usage')}: <strong>${data.value}%</strong>
       </div>
     </div>
   `
@@ -41,6 +43,10 @@ const tooltipTemplate = (d: Data) => {
 
 <template>
   <div class="w-full">
+    <div class="mb-6">
+      <h3 class="text-lg font-semibold">{{ $t('charts.appsDonut.title') }}</h3>
+      <p class="text-sm text-muted-foreground">{{ $t('charts.appsDonut.subtitle') }}</p>
+    </div>
     <ChartContainer :config="chartConfig" class="min-h-[200px] w-full" :label-key="'name'">
       <VisSingleContainer :data="chartData" :height="260">
         <VisDonut :value="valueFn" :color="colorFn" :arc-width="40" />

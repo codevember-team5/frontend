@@ -1,0 +1,173 @@
+{
+  "app": {
+    "title": "Personal Productivity AI",
+    "footer": "November Camp 2025 · Personal Productivity AI"
+  },
+  "nav": {
+    "dashboard": "Dashboard",
+    "patterns": "My Patterns",
+    "sources": "Data Sources",
+    "users": "Users",
+    "profile": "Profile"
+  },
+  "auth": {
+    "login": {
+      "title": "Welcome back",
+      "subtitle": "Please sign in to your account",
+      "identity": "Email or Full Name",
+      "identityPlaceholder": "john{'@'}example.com or John Doe",
+      "password": "Password",
+      "passwordPlaceholder": "••••••••",
+      "rememberMe": "Remember me",
+      "forgotPassword": "Forgot your password?",
+      "signIn": "Sign in",
+      "signingIn": "Signing in...",
+      "successMessage": "Login successful! Redirecting...",
+      "errorMessage": "Login failed. Please check your credentials.",
+      "noAccount": "Don't have an account?",
+      "createAccount": "Create an account"
+    },
+    "register": {
+      "title": "Create an account",
+      "subtitle": "Enter your details below to create your account",
+      "fullName": "Full Name",
+      "fullNamePlaceholder": "John Doe",
+      "email": "Email address",
+      "emailPlaceholder": "john{'@'}example.com",
+      "password": "Password",
+      "passwordPlaceholder": "••••••••",
+      "signUp": "Sign up",
+      "creatingAccount": "Creating account...",
+      "alreadyHaveAccount": "Already have an account?",
+      "signIn": "Sign in",
+      "successMessage": "Registration successful! Please log in.",
+      "errorMessage": "Registration failed. Please try again."
+    }
+  },
+  "profile": {
+    "title": "Profile Settings",
+    "nav": {
+      "personalInfo": "Personal Info",
+      "devices": "Devices"
+    },
+    "general": {
+      "title": "Personal Information",
+      "fullName": "Full Name",
+      "email": "Email",
+      "workingHours": "Working Hours",
+      "startTime": "Start Time",
+      "endTime": "End Time",
+      "workingDays": "Working Days",
+      "days": {
+        "Mon": "Monday",
+        "Tue": "Tuesday",
+        "Wed": "Wednesday",
+        "Thu": "Thursday",
+        "Fri": "Friday",
+        "Sat": "Saturday",
+        "Sun": "Sunday"
+      },
+      "save": "Save Changes",
+      "saving": "Saving...",
+      "successMessage": "Profile saved successfully!"
+    },
+    "devices": {
+      "title": "Manage Devices",
+      "deviceId": "Device ID",
+      "deviceIdPlaceholder": "Enter Device ID",
+      "assign": "Assign Device",
+      "unassign": "Unassign Device",
+      "assignSuccess": "Device {deviceId} assigned successfully.",
+      "unassignSuccess": "Device {deviceId} unassigned successfully.",
+      "assignError": "Failed to assign device.",
+      "unassignError": "Failed to unassign device."
+    }
+  },
+  "users": {
+    "title": "Users",
+    "addUser": "Add User",
+    "fullName": "Full Name",
+    "email": "Email",
+    "actions": "Actions",
+    "edit": "Edit",
+    "delete": "Delete",
+    "loading": "Loading...",
+    "noUsers": "No users found.",
+    "showing": "Showing",
+    "to": "to",
+    "previous": "Previous",
+    "next": "Next",
+    "deleteConfirm": "Are you sure you want to delete this user?",
+    "deleteSuccess": "User deleted successfully",
+    "deleteError": "Failed to delete user",
+    "saveError": "Failed to save user",
+    "createSuccess": "User created successfully",
+    "updateSuccess": "User updated successfully",
+    "modal": {
+      "editTitle": "Edit User",
+      "createTitle": "Add User",
+      "fullName": "Full Name",
+      "email": "Email",
+      "password": "Password",
+      "cancel": "Cancel",
+      "save": "Save"
+    }
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "subtitle": "Space to show KPIs, charts and a summary of productivity.",
+    "focusTime": "Focus time",
+    "productivitySessions": "Productivity Sessions",
+    "productivityScore": "Productivity score",
+    "distractionTime": "Distraction time",
+    "distractionRate": "Distraction rate",
+    "distractionPeakHours": "Distraction Peak Hours",
+    "insightAI": "Insight AI",
+    "insightText": "Space to show AI-generated text about patterns."
+  },
+  "patterns": {
+    "title": "My Patterns",
+    "subtitle": "Space to show AI patterns about working style.",
+    "exampleTitle": "Pattern example",
+    "exampleContent": "E.g.: more productive between 9:00 and 11:00."
+  },
+  "sources": {
+    "title": "Data Sources",
+    "subtitle": "Space to show data sources connected via MCP (calendar, notion, whatsapp, etc.).",
+    "tableInfo": "Space to show a table with:",
+    "sourceName": "Source name",
+    "status": "Status (connected / error)",
+    "other": "Other..."
+  },
+  "charts": {
+    "appsDonut": {
+      "title": "Application usage time (%)",
+      "subtitle": "Today",
+      "usage": "Usage",
+      "label": "Application usage"
+    },
+    "appsUsage": {
+      "title": "Application usage time (hours)",
+      "subtitle": "Today",
+      "applications": "Applications",
+      "hours": "Hours"
+    },
+    "attentionArea": {
+      "title": "Attention Level",
+      "subtitle": "Last 7 days (9:00 - 17:00)",
+      "label": "Attention level",
+      "level": "Level"
+    }
+  },
+  "devices": {
+    "title": "Manage Devices",
+    "deviceId": "Device ID",
+    "deviceIdPlaceholder": "Enter Device ID",
+    "assignButton": "Assign Device",
+    "unassignButton": "Unassign Device",
+    "assignSuccess": "Device {deviceId} assigned successfully.",
+    "unassignSuccess": "Device {deviceId} unassigned successfully.",
+    "assignError": "Failed to assign device.",
+    "unassignError": "Failed to unassign device."
+  }
+}
