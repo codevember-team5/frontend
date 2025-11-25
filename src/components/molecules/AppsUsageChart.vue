@@ -7,11 +7,11 @@ import { ChartContainer } from '@/components/ui/chart'
 
 const { t } = useI18n()
 const chartData = [
-  { name: 'Slack', hours: 4.2 },
-  { name: 'VS Code', hours: 6.5 },
-  { name: 'Chrome', hours: 3.1 },
-  { name: 'Figma', hours: 2.4 },
-  { name: 'Postman', hours: 1.8 },
+  { name: 'Slack', hours: 4.2, color: '#E01E5A' },
+  { name: 'VS Code', hours: 6.5, color: '#007ACC' },
+  { name: 'Chrome', hours: 3.1, color: '#4285F4' },
+  { name: 'Figma', hours: 2.4, color: '#F24E1E' },
+  { name: 'Pause', hours: 1.8, color: '#64748b' },
 ]
 
 type Data = (typeof chartData)[number]
@@ -28,11 +28,13 @@ const chartConfig = {
   },
 } satisfies ChartConfig
 
+const barColor = (d: Data) => d.color
+
 const tooltipTemplate = (d: Data) => {
   return `
     <div class="bg-white px-3 py-2 rounded-md shadow-md text-sm">
       <div class="font-semibold mb-1">${d.name}</div>
-      <div style="color: ${chartConfig.hours.color};">
+      <div style="color: ${d.color};">
         ${chartConfig.hours.label}: <strong>${d.hours}h</strong>
       </div>
     </div>
@@ -47,13 +49,31 @@ const tooltipTemplate = (d: Data) => {
       <p class="text-sm text-muted-foreground">{{ $t('charts.appsUsage.subtitle') }}</p>
     </div>
     <ChartContainer :config="chartConfig">
-      <VisXYContainer :data="chartData" :height="300">
-        <VisGroupedBar :x="(d: Data, i: number) => i" :y="[(d: Label) => d.hours]" orientation="horizontal"
-          :color="chartConfig.hours.color" :rounded-corners="4" :bar-padding="0.1" />
-        <VisAxis type="x" :tick-line="false" :domain-line="false" :grid-line="true"
-          :tick-format="(d: number) => `${d}h`" :label="chartConfig.hours.label" />
-        <VisAxis type="y" :tick-line="false" :domain-line="false" :grid-line="false"
-          :tick-format="(value: number) => chartData[value]?.name || ''" :label="chartConfig.name.label" />
+      <VisXYContainer :data="chartData" :height="260">
+        <VisGroupedBar
+          :x="(d: Data, i: number) => i"
+          :y="[(d: Label) => d.hours]"
+          orientation="horizontal"
+          :color="barColor"
+          :rounded-corners="4"
+          :bar-padding="0.1"
+        />
+        <VisAxis
+          type="x"
+          :tick-line="false"
+          :domain-line="false"
+          :grid-line="true"
+          :tick-format="(d: number) => `${d}h`"
+          :label="chartConfig.hours.label"
+        />
+        <VisAxis
+          type="y"
+          :tick-line="false"
+          :domain-line="false"
+          :grid-line="false"
+          :tick-format="(value: number) => chartData[value]?.name || ''"
+          :label="chartConfig.name.label"
+        />
         <VisTooltip :triggers="{ [GroupedBar.selectors.bar]: tooltipTemplate }" />
       </VisXYContainer>
     </ChartContainer>
