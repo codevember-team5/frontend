@@ -38,7 +38,7 @@ const dateOptions: DateOption[] = [
   { value: 'today', label: 'Oggi' },
   { value: 'yesterday', label: 'Ieri' },
   { value: 'this_week', label: 'Questa settimana' },
-  { value: 'this_month', label: 'Questo mese' },
+  { value: 'last_week', label: 'Settimana scorsa' },
 ]
 
 const getDateRange = (type: DateRangeType): DateRange => {
@@ -48,12 +48,6 @@ const getDateRange = (type: DateRangeType): DateRange => {
   let start: Date, end: Date
 
   switch (type) {
-    case 'today':
-      start = new Date(today)
-      end = new Date(today)
-      end.setHours(23, 59, 59, 999)
-      break
-
     case 'yesterday':
       start = new Date(today)
       start.setDate(start.getDate() - 1)
@@ -81,7 +75,7 @@ const getDateRange = (type: DateRangeType): DateRange => {
       end.setHours(23, 59, 59, 999)
       break
 
-    case 'this_month':
+    /*case 'this_month':
       start = new Date(now.getFullYear(), now.getMonth(), 1)
       end = new Date(now.getFullYear(), now.getMonth() + 1, 0)
       end.setHours(23, 59, 59, 999)
@@ -91,7 +85,12 @@ const getDateRange = (type: DateRangeType): DateRange => {
       start = new Date(now.getFullYear(), now.getMonth() - 1, 1)
       end = new Date(now.getFullYear(), now.getMonth(), 0)
       end.setHours(23, 59, 59, 999)
-      break
+      break*/
+
+    default: // today
+      start = new Date(today)
+      end = new Date(today)
+      end.setHours(23, 59, 59, 999)
   }
 
   return {
