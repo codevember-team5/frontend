@@ -1,29 +1,9 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
 import { useI18n } from 'vue-i18n'
 import type { ChartConfig } from '@/components/ui/chart'
 import { VisSingleContainer, VisDonut, VisTooltip } from '@unovis/vue'
-// import { useAuthStore } from '@/stores/auth'
-import { historyService } from '@/services/history.service'
 import { Donut } from '@unovis/ts'
 import { ChartContainer } from '@/components/ui/chart'
-
-const { t } = useI18n()
-// const authStore = useAuthStore()
-const deviceId = ref('963363238902')
-const message = ref('')
-const isError = ref(false)
-const isLoading = ref(false)
-const chartData = ref<ChartData>([])
-const categories = ref<Category[]>([])
-
-interface ChartDataWrapper {
-  data: ChartDataItem
-}
-interface Category {
-  category: string
-  percentage: number
-}
 
 interface ChartDataItem {
   name: string
@@ -32,43 +12,15 @@ interface ChartDataItem {
   percentage?: number
 }
 
-type ChartData = ChartDataItem[]
-
-const stringToHexColor = (str: string) => {
-  let hash = 0
-
-  for (let i = 0; i < str.length; i++) {
-    hash = str.charCodeAt(i) + ((hash << 5) - hash)
-  }
-
-  let color = '#'
-
-  for (let i = 0; i < 3; i++) {
-    const value = (hash >> (i * 8)) & 0xff
-    color += value.toString(16).padStart(2, '0')
-  }
-
-  return color
+interface ChartDataWrapper {
+  data: ChartDataItem
 }
 
-const getData = async () => {
-  if (!deviceId.value) return
-  isLoading.value = true
-  message.value = ''
-  isError.value = false
-  try {
-    const today = new Date().toISOString().split('T')[0] ?? ''
-    const result = await historyService.getActivitySummary(deviceId.value, today, today)
-    categories.value = result.categories
-    return categories.value
-  } catch (error) {
-    console.error(error)
-    isError.value = true
-    message.value = t('devices.assignError')
-  } finally {
-    isLoading.value = false
-  }
-}
+const { t } = useI18n()
+
+defineProps({
+  chartData: Object,
+})
 
 const chartConfig = {
   usage: {
@@ -93,16 +45,6 @@ const tooltipTemplate = (d: ChartDataWrapper) => {
     </div>
   `
 }
-
-onMounted(async () => {
-  await getData()
-
-  chartData.value = categories.value.map<ChartDataItem>((category) => ({
-    name: category.category,
-    value: category.percentage,
-    color: stringToHexColor(category.category),
-  }))
-})
 </script>
 
 <template>

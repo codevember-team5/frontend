@@ -116,8 +116,8 @@
   "dashboard": {
     "title": "Dashboard",
     "subtitle": "Spazio per mostrare KPI, grafici e un riassunto della produttività.",
-    "focusTime": "Tempo di focus",
-    "productivitySessions": "Sessioni di produttività",
+    "focusTime": "Tempo di utilizzo applicazioni",
+    "productivitySessions": "Utilizzo applicazioni",
     "productivityScore": "Punteggio produttività",
     "distractionTime": "Tempo di distrazione",
     "distractionRate": "Tasso di distrazione",
@@ -147,10 +147,10 @@
       "label": "Utilizzo applicazioni"
     },
     "appsUsage": {
-      "title": "Tempo di utilizzo applicazioni (ore)",
+      "title": "ore e minuti",
       "subtitle": "Oggi",
       "applications": "Applicazioni",
-      "hours": "Ore"
+      "hours": "Tempo"
     },
     "attentionArea": {
       "title": "Livello di Concentrazione",
