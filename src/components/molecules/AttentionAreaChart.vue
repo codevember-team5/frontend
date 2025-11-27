@@ -7,30 +7,9 @@ import { ChartContainer } from '@/components/ui/chart'
 
 const { t, locale } = useI18n()
 
-// Generate hourly data for the last 7 days (9:00 - 17:00)
-const generateHourlyData = () => {
-  const data = []
-  const today = new Date()
-  today.setHours(0, 0, 0, 0)
-
-  const startDate = new Date(today)
-  startDate.setDate(today.getDate() - 6)
-
-  for (let i = 0; i < 7; i++) {
-    const currentDate = new Date(startDate)
-    currentDate.setDate(startDate.getDate() + i)
-
-    for (let hour = 9; hour <= 17; hour++) {
-      const timestamp = new Date(currentDate).setHours(hour, 0, 0, 0)
-      const value = Math.floor(Math.random() * 7) + 3
-      data.push({ date: timestamp, value })
-    }
-  }
-
-  return data
-}
-
-const chartData = generateHourlyData()
+const props = defineProps({
+  chartData: Object,
+})
 
 const chartConfig = {
   attention: {
@@ -79,15 +58,17 @@ const tooltipPosition = ref({ x: 0, y: 0 })
 const showTooltip = ref(false)
 
 const handleMouseMove = (event: MouseEvent) => {
+  if (!props.chartData) return
+
   const target = event.currentTarget as HTMLElement
   const rect = target.getBoundingClientRect()
   const x = event.clientX - rect.left
   const y = event.clientY - rect.top
 
-  const dataIndex = Math.floor((x / rect.width) * chartData.length)
+  const dataIndex = Math.floor((x / rect.width) * props.chartData.length)
 
-  if (dataIndex >= 0 && dataIndex < chartData.length) {
-    tooltipData.value = chartData[dataIndex] ?? null
+  if (dataIndex >= 0 && dataIndex < props.chartData.length) {
+    tooltipData.value = props.chartData[dataIndex] ?? null
 
     // Prevent tooltip from going off-screen
     let tooltipX = x + 10

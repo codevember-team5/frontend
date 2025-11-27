@@ -75,18 +75,6 @@ const getDateRange = (type: DateRangeType): DateRange => {
       end.setHours(23, 59, 59, 999)
       break
 
-    /*case 'this_month':
-      start = new Date(now.getFullYear(), now.getMonth(), 1)
-      end = new Date(now.getFullYear(), now.getMonth() + 1, 0)
-      end.setHours(23, 59, 59, 999)
-      break
-
-    case 'last_month':
-      start = new Date(now.getFullYear(), now.getMonth() - 1, 1)
-      end = new Date(now.getFullYear(), now.getMonth(), 0)
-      end.setHours(23, 59, 59, 999)
-      break*/
-
     default: // today
       start = new Date(today)
       end = new Date(today)
@@ -94,8 +82,8 @@ const getDateRange = (type: DateRangeType): DateRange => {
   }
 
   return {
-    start_time: start.toISOString(),
-    end_time: end.toISOString(),
+    start_time: new Date(start).toISOString(),
+    end_time: new Date(end).toISOString(),
   }
 }
 

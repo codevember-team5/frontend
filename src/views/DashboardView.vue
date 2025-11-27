@@ -7,6 +7,7 @@ import AttentionAreaChart from '@/components/molecules/AttentionAreaChart.vue'
 import ProductivityDonutChart from '@/components/molecules/ProductivityDonutChart.vue'
 import DateRangeSelector from '@/components/atoms/DateRangeSelector.vue'
 import { historyService } from '@/services/history.service'
+import { useAuthStore } from '@/stores/auth'
 
 interface CategoryComponent {
   entries_count: number
@@ -32,7 +33,7 @@ interface CategoryDay {
 
 interface ChartDataItem {
   name: string
-  value: number
+  value?: number
   color?: string
   percentage?: number
 }
@@ -47,11 +48,15 @@ interface DateRange {
 const { t } = useI18n()
 
 const deviceId = ref('963363238902')
+const auth = useAuthStore()
+const userId = ref(auth.userId)
 const message = ref('')
 const isError = ref(false)
 const isLoading = ref(false)
 const chartData = ref<ChartData>([])
 const categories = ref<Category[]>([])
+const attention = ref<ChartDataItem[]>([])
+const hourlyAttention = ref<ChartDataItem[]>([])
 const days = ref<CategoryDay[]>([])
 const currentRange = ref<DateRange | null>(null)
 
@@ -104,6 +109,62 @@ const getData = async () => {
   }
 }
 
+const getAttentionData = async (groupBy = 'day') => {
+  if (!userId.value || !currentRange.value) return
+
+  isLoading.value = true
+  message.value = ''
+  isError.value = false
+
+  try {
+    const result = await historyService.getAttentionLevelSummary(
+      userId.value,
+      currentRange.value.start_time,
+      currentRange.value.end_time,
+      groupBy,
+    )
+
+    if (groupBy == 'day') {
+      const attentionPerc = Math.round(result.days[0]['percentage'])
+      const distractionPerc = 100 - attentionPerc
+
+      attention.value = [
+        {
+          name: 'Produttività',
+          percentage: attentionPerc,
+          value: attentionPerc,
+          color: '#00cc00',
+        },
+        {
+          name: 'Distrazione',
+          percentage: distractionPerc,
+          value: distractionPerc,
+          color: '#cc0000',
+        },
+        {
+          name: 'Pausa',
+          percentage: 0,
+          value: 0,
+          color: '#64748b',
+        },
+      ]
+    } else {
+      hourlyAttention.value = result.hours.map((item: Category) => {
+        return {
+          date: new Date(item.hour).getTime(),
+          value: item.percentage,
+        }
+      })
+    }
+  } catch (error) {
+    console.error(error)
+    isError.value = true
+    message.value = t('devices.assignError')
+  } finally {
+    isLoading.value = false
+  }
+}
+
 const handleRangeChange = (range: DateRange): void => {
   const startDate = new Date(range.start_time)
   const endDate = new Date(range.end_time)
@@ -114,6 +175,8 @@ const handleRangeChange = (range: DateRange): void => {
   } as DateRange
 
   getData()
+  getAttentionData()
+  getAttentionData('hour')
 }
 </script>
 
@@ -153,7 +216,7 @@ const handleRangeChange = (range: DateRange): void => {
             {{ $t('charts.productivityScore.title') }}
           </p>
         </div>
-        <ProductivityDonutChart />
+        <ProductivityDonutChart :chart-data="attention" />
       </div>
     </div>
 
@@ -165,7 +228,7 @@ const handleRangeChange = (range: DateRange): void => {
           {{ $t('charts.attentionArea.subtitle') }}
         </p>
       </div>
-      <AttentionAreaChart />
+      <AttentionAreaChart :chart-data="hourlyAttention" />
     </div>
   </section>
 </template>

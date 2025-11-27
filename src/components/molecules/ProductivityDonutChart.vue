@@ -5,17 +5,31 @@ import { VisSingleContainer, VisDonut, VisTooltip } from '@unovis/vue'
 import { Donut } from '@unovis/ts'
 import { ChartContainer } from '@/components/ui/chart'
 
-const { t } = useI18n()
-const chartData = [
-  { name: 'Produttività', value: 60, color: '#00cc00' },
-  { name: 'Distrazione', value: 30, color: '#cc0000' },
-  { name: 'Pausa', value: 10, color: '#64748b' },
-] as const
-
-type Data = (typeof chartData)[number]
-interface Val {
-  data: Data
+interface Comp {
+  process: string
+  window_bucket: string
+  total_seconds: number
+  percentage_of_category: number
+  entries_count: number
 }
+
+interface ChartDataItem {
+  name: string
+  value: number
+  color?: string
+  percentage?: number
+  components: Comp[]
+}
+
+interface ChartDataWrapper {
+  data: ChartDataItem
+}
+
+const { t } = useI18n()
+
+defineProps({
+  chartData: Object,
+})
 
 const chartConfig = {
   usage: {
@@ -24,12 +38,11 @@ const chartConfig = {
   },
 } satisfies ChartConfig
 
-// Funzioni per Unovis
-const valueFn = (d: Data) => d.value
-const colorFn = (d: Data) => d.color
+const valueFn = (d: ChartDataItem) => d.value
+const colorFn = (d: ChartDataItem) => d.color
 
-const tooltipTemplate = (d: Val) => {
-  const data = d.data
+const tooltipTemplate = (d: ChartDataWrapper) => {
+  const data = d.data as ChartDataItem
   return `
     <div class="bg-white px-3 py-2 rounded-md shadow-md text-sm">
       <div class="font-semibold mb-1" style="color: ${data.color};">
@@ -50,26 +63,26 @@ const tooltipTemplate = (d: Val) => {
         <VisDonut :value="valueFn" :color="colorFn" :arc-width="40" />
         <VisTooltip :triggers="{ [Donut.selectors.segment]: tooltipTemplate }" />
       </VisSingleContainer>
-
-      <!-- Legenda affiancata -->
-      <ul class="space-y-2 text-xs">
-        <li
-          v-for="item in chartData"
-          :key="item.name"
-          class="flex items-center justify-between gap-3"
-        >
-          <div class="flex items-center gap-2">
-            <span
-              class="inline-block h-3 w-3 rounded-full"
-              :style="{ backgroundColor: item.color }"
-            />
-            <span class="text-slate-700">
-              {{ item.name }}
-            </span>
-          </div>
-          <span class="font-semibold text-slate-900"> {{ item.value }}% </span>
-        </li>
-      </ul>
     </ChartContainer>
+
+    <!-- Legenda affiancata -->
+    <ul class="space-y-2 text-xs">
+      <li
+        v-for="item in chartData"
+        :key="item.name"
+        class="flex items-center justify-between gap-3"
+      >
+        <div class="flex items-center gap-2">
+          <span
+            class="inline-block h-3 w-3 rounded-full"
+            :style="{ backgroundColor: item.color }"
+          />
+          <span class="text-slate-700">
+            {{ item.name }}
+          </span>
+        </div>
+        <span class="font-semibold text-slate-900"> {{ item.value }}% </span>
+      </li>
+    </ul>
   </div>
 </template>

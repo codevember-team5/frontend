@@ -18,7 +18,7 @@ export class UserService extends ApiService {
   }
 
   async unassignDevice(userId: string, deviceId: string) {
-    const response = await this.api.delete(`/user/unassign/${userId}/device/${deviceId}`)
+    const response = await this.api.delete(`/user/assign/${userId}/device/${deviceId}`)
     return response.data
   }
 
