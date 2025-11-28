@@ -44,6 +44,23 @@ const colorFn = (d: ChartDataItem) => d.color
 
 const tooltipTemplate = (d: ChartDataWrapper) => {
   const data = d.data as ChartDataItem
+  const categoryComponents = (data.components ?? [])
+    .map(
+      (component) => `
+        <li class="flex items-center gap-2 justify-between">
+          <div class="flex items-center gap-2">
+            <span class="inline-block h-2 w-2 rounded-full bg-slate-700"></span>
+            <span class="text-slate-700">
+              ${component.window_bucket}
+            </span>
+          </div>
+          <span class="font-semibold text-slate-900">
+            ${component.percentage_of_category}%
+          </span>
+        </li>
+      `,
+    )
+    .join('')
   return `
     <div class="bg-white px-3 py-2 rounded-md shadow-md text-sm">
       <div class="font-semibold mb-1" style="color: ${data.color};">
@@ -51,6 +68,11 @@ const tooltipTemplate = (d: ChartDataWrapper) => {
       </div>
       <div>
         ${chartConfig.usage.label}: <strong>${data.value}%</strong>
+      </div>
+      <div>
+        <ul class="px-8 mb-2">
+          ${categoryComponents}
+        </ul>
       </div>
     </div>
   `
@@ -81,23 +103,6 @@ const tooltipTemplate = (d: ChartDataWrapper) => {
           </div>
           <span class="font-semibold text-slate-900"> {{ item.value }}% </span>
         </div>
-        <ul class="px-8 mb-2">
-          <li
-            class="flex items-center gap-2 justify-between"
-            v-for="component in item.components"
-            :key="`${component.process}`"
-          >
-            <div class="flex items-center gap-2">
-              <span class="inline-block h-2 w-2 rounded-full bg-slate-700" />
-              <span class="text-slate-700">
-                {{ component.window_bucket }}
-              </span>
-            </div>
-            <span class="font-semibold text-slate-900">
-              {{ component.percentage_of_category }}%
-            </span>
-          </li>
-        </ul>
       </li>
     </ul>
   </div>
