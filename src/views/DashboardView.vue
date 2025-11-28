@@ -182,21 +182,21 @@ const handleRangeChange = (range: DateRange): void => {
 </script>
 
 <template>
-  <section class="space-y-6">
+  <section class="space-y-6 w-full max-w-full overflow-x-hidden">
     <div class="flex justify-between items-center gap-3">
       <h1 class="text-2xl font-bold">{{ $t('dashboard.title') }}</h1>
       <DateRangeSelector @rangeSelected="handleRangeChange" />
     </div>
 
     <!-- Focus time + istogramma orizzontale -->
-    <div class="rounded-lg bg-white p-4 flex flex-col gap-3 border border-slate-800">
+    <div class="rounded-lg bg-white p-4 flex flex-col gap-3 border border-slate-800 w-full max-w-full min-w-0 overflow-hidden">
       <div>
         <h2 class="text-sm font-semibold text-slate-900">{{ $t('dashboard.focusTime') }}</h2>
         <p class="text-xs text-slate-500">{{ $t('charts.appsUsage.title') }}</p>
       </div>
       <AppsUsageChart :chart-data="chartData" :days-data="days" />
     </div>
-    <div class="grid gap-4 md:grid-cols-2">
+    <div class="grid gap-4 md:grid-cols-2 min-w-0 [&>div]:min-w-0">
       <div class="rounded-lg bg-white p-4 flex flex-col gap-3 border border-slate-800">
         <div>
           <h2 class="text-sm font-semibold text-slate-900">
@@ -208,7 +208,7 @@ const handleRangeChange = (range: DateRange): void => {
       </div>
 
       <!-- Terzo riquadro: placeholder KPI aggiuntivo -->
-      <div class="rounded-lg bg-white p-4 flex flex-col gap-3 border border-slate-800">
+      <div class="rounded-lg bg-white p-4 flex flex-col gap-3 border border-slate-800 w-full max-w-full min-w-0 overflow-hidden">
         <div>
           <h2 class="text-sm font-semibold text-slate-900">
             {{ $t('dashboard.productivityScore') }}
@@ -222,7 +222,7 @@ const handleRangeChange = (range: DateRange): void => {
     </div>
 
     <!-- Seconda riga: grafico a tutta larghezza per il livello di concentrazione -->
-    <div class="rounded-lg bg-white p-4 flex flex-col gap-3 border border-slate-800">
+    <div class="rounded-lg bg-white p-4 flex flex-col gap-3 border border-slate-800 w-full max-w-full min-w-0 overflow-hidden">
       <div class="mb-12 md:mb-auto">
         <h2 class="text-sm font-semibold text-slate-900">{{ $t('charts.attentionArea.title') }}</h2>
         <p class="text-xs text-slate-500">
