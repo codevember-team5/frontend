@@ -41,49 +41,59 @@ const dateOptions: DateOption[] = [
   { value: 'last_week', label: 'Settimana scorsa' },
 ]
 
+
 const getDateRange = (type: DateRangeType): DateRange => {
   const now = new Date()
-  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate())
 
-  let start: Date, end: Date
+  const today = new Date(Date.UTC(
+    now.getUTCFullYear(),
+    now.getUTCMonth(),
+    now.getUTCDate()
+  ))
+
+  let start = new Date(today)
+  let end = new Date(today)
 
   switch (type) {
-    case 'yesterday':
-      start = new Date(today)
-      start.setDate(start.getDate() - 1)
+    case 'yesterday': {
+      start.setUTCDate(start.getUTCDate() - 1)
       end = new Date(start)
-      end.setHours(23, 59, 59, 999)
+      end.setUTCHours(23, 59, 59, 999)
       break
+    }
 
-    case 'this_week':
-      start = new Date(today)
-      const dayOfWeek = start.getDay()
-      const diff = dayOfWeek === 0 ? -6 : 1 - dayOfWeek
-      start.setDate(start.getDate() + diff)
+    case 'this_week': {
+      const dayOfWeek = start.getUTCDay() || 7
+      const diffToMonday = dayOfWeek - 1
+      start.setUTCDate(start.getUTCDate() - diffToMonday)
+
       end = new Date(start)
-      end.setDate(end.getDate() + 6)
-      end.setHours(23, 59, 59, 999)
+      end.setUTCDate(end.getUTCDate() + 6)
+      end.setUTCHours(23, 59, 59, 999)
       break
+    }
 
-    case 'last_week':
-      start = new Date(today)
-      const lastWeekDay = start.getDay()
-      const lastWeekDiff = lastWeekDay === 0 ? -6 : 1 - lastWeekDay
-      start.setDate(start.getDate() + lastWeekDiff - 7)
+    case 'last_week': {
+      const dayOfWeek = start.getUTCDay() || 7
+      const diffToMonday = dayOfWeek - 1
+      start.setUTCDate(start.getUTCDate() - diffToMonday - 7)
+
       end = new Date(start)
-      end.setDate(end.getDate() + 6)
-      end.setHours(23, 59, 59, 999)
+      end.setUTCDate(end.getUTCDate() + 6)
+      end.setUTCHours(23, 59, 59, 999)
       break
+    }
 
-    default: // today
-      start = new Date(today)
-      end = new Date(today)
-      end.setHours(23, 59, 59, 999)
+    case 'today':
+    default: {
+      end.setUTCHours(23, 59, 59, 999)
+      break
+    }
   }
 
   return {
-    start_time: new Date(start).toISOString(),
-    end_time: new Date(end).toISOString(),
+    start_time: start.toISOString(),
+    end_time: end.toISOString(),
   }
 }
 
