@@ -22,6 +22,7 @@ interface Category {
   percentage: number
   total_seconds: number
   entries_count: number
+  hour: string
   components: CategoryComponent[]
 }
 
