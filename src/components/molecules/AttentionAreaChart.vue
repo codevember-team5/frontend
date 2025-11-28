@@ -68,7 +68,7 @@ const handleMouseMove = (event: MouseEvent) => {
   const dataIndex = Math.floor((x / rect.width) * props.chartData.length)
 
   if (dataIndex >= 0 && dataIndex < props.chartData.length) {
-    tooltipData.value = props.chartData[dataIndex] ?? null
+    tooltipData.value = props.chartData[dataIndex] ?? 0
 
     // Prevent tooltip from going off-screen
     let tooltipX = x + 10
@@ -143,7 +143,7 @@ const formatTooltipDate = (timestamp: number) => {
               {{ formatTooltipDate(tooltipData.date) }}
             </div>
             <div class="text-gray-700">
-              {{ $t('charts.attentionArea.level') }}: <strong>{{ tooltipData.value }}/10</strong>
+              {{ $t('charts.attentionArea.level') }}: <strong>{{ tooltipData.value }}/100</strong>
             </div>
           </div>
         </div>
