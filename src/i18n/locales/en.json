@@ -157,6 +157,10 @@
       "subtitle": "Last 7 days (9:00 - 17:00)",
       "label": "Attention level",
       "level": "Level"
+    },
+    "productivityScore": {
+      "title": "Percentage of work time and break time",
+      "label": "Percentage"
     }
   },
   "devices": {
