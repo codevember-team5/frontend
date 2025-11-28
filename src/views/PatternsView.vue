@@ -47,6 +47,10 @@ const userId = ref(auth.userId || '691608fb570cba9d820e8165')
 // 3) endpoint base
 const API_BASE_URL = 'https://backend-ua5h.onrender.com'
 
+// Range di tempo MOCKED (da lunedì 24 novembre ad oggi)
+const startTime = '2025-11-24T00:00:00.000Z'
+const stopTime = new Date().toISOString()
+
 // FUNZIONE REALE (da usare quando il backend sarà pronto)
 onMounted(async () => {
   isLoading.value = true
@@ -54,7 +58,9 @@ onMounted(async () => {
 
   try {
     //  API reale
-    const response = await fetch(`${API_BASE_URL}/api/insight/productivity/user/${userId.value}`)
+    const response = await fetch(
+      `${API_BASE_URL}/api/insight/productivity/user/${userId.value}?start_time=${startTime}&stop_time=${stopTime}`,
+    )
 
     if (!response.ok) {
       // se il server risponde con 4xx o 5xx
