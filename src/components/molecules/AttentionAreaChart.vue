@@ -22,11 +22,14 @@ const x = (d: { date: number; value: number }) => d.date
 const y = (d: { date: number; value: number }) => d.value
 
 const dateFormatter = (timestamp: number) => {
-  const date = new Date(timestamp)
-  return date.toLocaleDateString(locale.value, {
-    day: 'numeric',
-    month: 'short',
-  })
+  const d = new Date(timestamp)
+
+  const day = d.getDate()
+  const month = d.getMonth() + 1
+  const hours = d.getHours().toString().padStart(2, '0')
+  const minutes = d.getMinutes().toString().padStart(2, '0')
+
+  return `${day}/${month} ${hours}:${minutes}`
 }
 
 // Responsive chart height
@@ -106,7 +109,7 @@ const formatTooltipDate = (timestamp: number) => {
 
 <template>
   <div class="flex flex-col gap-3">
-    <ChartContainer :config="chartConfig">
+    <ChartContainer :config="chartConfig" class="overflow-x-auto">
       <div
         ref="containerRef"
         class="relative w-full overflow-hidden"
@@ -116,10 +119,10 @@ const formatTooltipDate = (timestamp: number) => {
         <div class="w-full">
           <VisXYContainer :data="chartData">
             <VisArea :x="x" :y="y" :color="chartConfig.attention.color" :opacity="0.6" />
-            <VisAxis type="x" :tick-format="dateFormatter" :num-ticks="7" />
+            <VisAxis type="x" :tick-format="dateFormatter" :num-ticks="10" />
             <VisAxis
               type="y"
-              :domain="[0, 10]"
+              :domain="[0, 100]"
               :grid-line="true"
               :tick-line="false"
               :tick-format="(d: number) => d"
@@ -143,7 +146,7 @@ const formatTooltipDate = (timestamp: number) => {
               {{ formatTooltipDate(tooltipData.date) }}
             </div>
             <div class="text-gray-700">
-              {{ $t('charts.attentionArea.level') }}: <strong>{{ tooltipData.value }}/100</strong>
+              {{ $t('charts.attentionArea.level') }}: <strong>{{ tooltipData.value }}%</strong>
             </div>
           </div>
         </div>
